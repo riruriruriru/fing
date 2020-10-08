@@ -1,0 +1,1097 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" rel="stylesheet"/>
+
+    <div class="content-page">
+	
+		<!-- Start content -->
+        <div class="content">
+            
+			<div class="container-fluid">
+
+				
+				<div class="row">
+					<div class="col-xl-12">
+						<div class="breadcrumb-holder">
+							<h1 class="main-title float-left">Configuración</h1>
+							<ol class="breadcrumb float-right">
+							
+							</ol>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+				</div>
+				<% if !!flash[:noticen]%>
+                        <div class="row animated fadeInRight" id="notification">
+                            <div class="alert alert-danger pull-right " role="alert" >
+                         
+                         <%= flash[:noticen]%>
+                          
+                         
+                        </div>
+                        </div>
+                <% end %>
+                <% if !!flash[:noticep]%>
+                        <div class="row animated fadeInRight" id="notification">
+                            <div class="alert alert-success pull-right " role="alert" >
+                         
+                         <%= flash[:noticep]%>
+                          
+                         
+                        </div>
+                        </div>
+                        
+                         <% end %>
+                       
+                         <script type="text/javascript">
+
+                        $(document).ready(function () {
+                         
+                        window.setTimeout(function() {
+                            $("#notification").fadeTo(200, 0).slideUp(500, function(){
+                                $(this).remove(); 
+                            });
+                        }, 5000);
+                         
+                        });
+
+                        </script>
+				<!-- end row -->
+				
+
+
+
+				<div class="row container" style="margin-left: inherit; margin-right: inherit;">
+									
+									<div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+										<%= link_to '<div class="card-box noradius noborder bg-default">
+													
+													<h6 class="text-white text-uppercase text-center" style="font-size: 18px; margin-top:12px;" >Usuarios <i class="fas fa-users"></i></h6>			
+											</div>'.html_safe,  '#', 'data-target' => "#collapseOne",
+											'id'=>"popoveruserData", 
+
+											'data-content'=>"Añadir usuarios, editarlos o eliminarlos",
+											'rel'=>"popover", 'data-placement'=>"bottom", 
+											 'data-original-title'=>"Administrar Usuarios",
+
+											  'data-trigger'=>"hover", class: "card-default", 'data-toggle'=>"collapse",
+											 'aria-expanded'=>"false", 'aria-controls'=>"collapseOne" %>
+
+										
+									</div>
+
+									<div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+										<%= link_to '<div class="card-box noradius noborder bg-warning">
+													<h6 class="text-white text-uppercase text-center" style="font-size: 17px; height:25px; margin-top: 9px;">Asignaturas <i class="fas fa-book"></i></h6>
+												</div>'.html_safe,  '#',
+												'id'=>"popoversubjectData", 
+												'data-content'=>"Añadir asignaturas, editarlas o eliminarlas",
+												 'rel'=>"popover", 'data-placement'=>"bottom", 
+												'data-original-title'=>"Administrar Asignaturas",
+												 'data-trigger'=>"hover", class: "card-warning", 'data-target' => "#collapseTwo", 'data-toggle'=>"collapse",
+											 'aria-expanded'=>"false", 'aria-controls'=>"collapseTwo" %>
+
+											
+									</div>
+
+									
+
+							
+									<div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+										<%= link_to '<div class="card-box noradius noborder bg-success">
+													<h6 class="text-white text-uppercase text-center" style="font-size: 18px; height:32px;"> Departamento y carreras <i class="fas fa-graduation-cap"></i></h6>
+												</div>'.html_safe,  '#',
+												'id'=>"popovercareerData", 
+												'data-content'=>"Administrar departamentos y sus carreras",
+												 'rel'=>"popover", 'data-placement'=>"bottom", 
+												 'data-original-title'=>"Administrar Departamento y Carreras",
+												  'data-trigger'=>"hover", class: "card-success", 'data-target' => "#collapseFour", 'data-toggle'=>"collapse",
+											 'aria-expanded'=>"false", 'aria-controls'=>"collapseFour" %>
+
+											
+									</div>
+									<div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+										<%= link_to '<div class="card-box noradius noborder bg-info">
+													<h6 class="text-white text-uppercase text-center" style="font-size: 18px; margin-top: 10px;" > Periodo <i class="fas fa-calendar-day"></i></h6>
+												</div>'.html_safe,  '#',
+												'id'=>"popoverperiodData",
+												 'data-content'=>"Escoger periodo que regirá en la plataforma",
+												  'rel'=>"popover", 'data-placement'=>"bottom", 
+												  'data-original-title'=>"Administrar Periodo",
+												   'data-trigger'=>"hover", class: "card-info", 'data-target' => "#collapseFive", 'data-toggle'=>"collapse",
+											 'aria-expanded'=>"false", 'aria-controls'=>"collapseFive" %>
+
+											
+									</div>
+									<div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+										<%= link_to '<div class="card-box noradius noborder bg-danger" style="padding: 26px !important;">
+													<h6 class="text-white text-uppercase text-center" style="font-size: 18px;" >Subir archivos <br> Deserción <i class="fas fa-file-excel"></i></h6>
+											</div>'.html_safe,  '#', 'data-target' => "#desercion", 'data-toggle' => 'modal', 
+											'id'=>"popoversubirData", '
+											data-content'=>"Subir archivos .csv con la probabilidad de cada estudiante a desertar, por carrera.",
+											 'rel'=>"popover", 'data-placement'=>"bottom", 
+											 'data-original-title'=>"Administrar Archivos de Deserción",
+											  'data-trigger'=>"hover",class: "card-danger" %>
+											
+									</div>
+									<div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+										<%= link_to '<div class="card-box noradius noborder bg-act">
+													<h6 class="text-white text-uppercase text-center" style="font-size: 18px; height:32px;" > Actualizar estudiantes <i class="fas fa-user-graduate"></i></h6>
+												</div>'.html_safe, '/actualize',
+												'id'=>"popoveractualizarData", 
+												'data-content'=>"Sincronizar estudiantes con base de datos externa", 'rel'=>"popover", 'data-placement'=>"bottom", 
+												'data-original-title'=>"Administrar Estudiantes",
+												 'data-trigger'=>"hover", class: "card-info" %>
+
+											
+									</div> 
+									
+							</div>
+							<!-- end row -->
+
+			
+
+<div class="row">
+								
+
+		<div class="accordion col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" id="accordionExample">
+
+		  	<div id="headingOne">
+		    
+
+		    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+		    	
+		      <div class="card mb-3 col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+					
+							<div class="card-header">
+							
+						
+	
+												
+								<h3><i class="fa fa-user"></i> Usuarios</h3>								
+								</div>
+								<!-- end card-header -->	
+											
+							<div class="card-body">
+													
+								<%= link_to '<i class="fas fa-plus"></i> Nuevo usuario'.html_safe,  '#', 'data-target' => "#nuevousuario", 'data-toggle' => 'modal', class: "btn btn-success pull-right", style: "margin-bottom: 5px; margin-top: -10px;" %>					
+										<div class="table-responsive">
+										<table class="table table-bordered">
+										  <thead>
+						                       <tr class="text-center">
+						                      <th scope="col">#</th>
+										      <th scope="col">Nombre</th>
+										      <th scope="col">Email</th>
+										      <th scope="col">Rol</th>
+											  
+										      <th scope="col"><i class="fas fa-cogs"></i></th>
+										  
+						                      </tr>
+						                    </thead>                    
+						                    <tbody>
+						                      <% @users.each do |user| %>
+						                       <tr class="text-center">              
+						                       <td> <%=user.id%> </td>
+						                       <td> <%=user.name%> </td>
+						                 
+											      <td> <%=user.email%> </td>
+											      <td><%=user.role.name%></td>
+											    
+											    
+													
+											     
+											     
+			                     <td class="text-center">
+			                       <%= link_to '<i class="fas fa-edit"></i> Editar'.html_safe,  '#', 'data-target' => "#myModal_#{user.id}", 'data-toggle' => 'modal', class: "btn btn-warning" %>
+			                       <!-- modal editar tutoria -->
+			                            <div class="modal fade" id='<%= "myModal_#{user.id}" %>' tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			                              <div class="modal-dialog" role="document">
+			                              <div class="modal-content">
+			                                <div class="modal-header">
+			                                  <h5 class="modal-title" id="exampleModalLabel">Editar Usuario <%=user.email%></h5>
+			                                </div>
+			                                  <div class="modal-body">
+			                                    <%= bootstrap_form_for(user) do |f| %>
+
+			                                      
+                 <div class="form-row">
+              	  <div class="col-md-12">
+	                <%= f.email_field :email,:label=>"Email",:required => true %>
+	              
+	              </div>
+
+                       
+                   <div class="col-md-6">
+                      <%= f.text_field :firstname,:label=>"Nombres",:required => true,:onkeypress=>"return isWord(event)" %>
+                    </div>
+                    <div class="col-md-6">
+                        <%= f.text_field :lastname,:label=>"Apellido paterno",:required => true,:onkeypress=>"return isWord(event)" %>
+                    </div>
+
+					<div class="col-md-6 center">
+				    	<%= f.select(:department_id, options_from_collection_for_select(Department.all, :id, :name ),:label=>"Departamento",:required => true) %>
+				  	</div>
+                
+					
+				  <div class="col-md-6 center">
+				    <%= f.select(:role_id, options_from_collection_for_select(Role.all, :id, :name, user.role_id),:label=>"Rol",:required => true) %>
+				  </div>
+
+				 
+
+              
+                 </div>
+			                                  
+			                                  </div>
+			                                   
+			                                  <div class="modal-footer">
+			                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+			                                   <!--  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button> -->
+			                                   <input class="btn btn-default" name="commit" type="submit" value="Guardar">
+			                                  </div>
+			                                    <% end %>
+			                                </div><!-- /.modal-content -->
+			                              </div><!-- /.modal-dialog -->
+			                            </div><!-- /.modal -->
+
+			                      
+
+
+			                  
+			                        
+			                       
+			                        <%= link_to @users.find(user.id), :method => 'delete', data: { confirm: '¿Está seguro de eliminar este usuario?' }, class: "btn btn-danger" do %>
+			                        <i class="fas fa-trash"></i> Borrar
+			                        <% end %>
+
+			                      </td>
+			                     </tr>
+			                    
+			                     <%end%>
+						                    </tbody>
+										</table>
+										</div>	
+																		
+													
+								</div>	
+								<!-- end card-body -->								
+								
+		</div>
+
+
+		    </div>
+		  </div>
+		
+		  <div  id="headingTwo">
+		   
+		    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+		    
+		      <div class="card mb-3 col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+					
+							<div class="card-header">
+							<!-- <span class="pull-right"><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModaluser"><i class="fa fa-user-plus" aria-hidden="true"></i> Añadir usuario </button></span> -->
+						
+
+												
+								<h3><i class="fas fa-book"></i> Asignaturas</h3>								
+								</div>
+								<!-- end card-header -->	
+											
+							<div class="card-body">
+													
+								<%= link_to '<i class="fas fa-plus"></i> Nueva asignatura'.html_safe,  '#', 'data-target' => "#nuevaasignatura", 'data-toggle' => 'modal', class: "btn btn-success pull-right", style: "margin-bottom: 5px; margin-top: -10px;" %>					
+										<div class="table-responsive">
+										<table class="table table-bordered">
+										  <thead>
+						                       <tr class="text-center">
+						                      
+										      <th scope="col">Nombre</th>
+										      <th scope="col">Nivel</th>
+										     
+										      <th scope="col"><i class="fas fa-cogs"></i></th>
+										  
+						                      </tr>
+						                    </thead>                    
+						                    <tbody>
+						                      <% @subjects.each do |s| %>
+						                       <tr class="text-center">              
+						                       <td> <%=s.name%> </td>
+						                       <td> <%=s.level%> </td>
+						                 
+											    
+											    
+													
+											     
+											     
+			                     <td class="text-center">
+			                       <%= link_to '<i class="fas fa-edit"></i> Editar'.html_safe,  '#', 'data-target' => "#editar_#{s.id}", 'data-toggle' => 'modal', class: "btn btn-warning" %>
+			                       <!-- modal editar tutoria -->
+			                            <div class="modal fade" id='<%= "editar_#{s.id}" %>' tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			                              <div class="modal-dialog" role="document">
+			                              <div class="modal-content">
+			                                <div class="modal-header">
+			                                  <h5 class="modal-title" id="exampleModalLabel">Editar asignatura <%=s.name%></h5>
+			                                </div>
+			                                  <div class="modal-body">
+			                                    <%= bootstrap_form_for(s) do |f| %>
+
+			                                      
+			                                      <div class="form-row">
+				                                        <div class="col-md-7">
+				                                      <%= f.text_field :name,:label=>"Nombre",:required => true %>
+				                                    
+				                                    </div>
+
+				                                <div class="col-md-3">
+				                                          <%= f.number_field :level,:label=>"Nivel",:min=>1,:max=>12,:required => true %>
+				                                        </div>
+
+                        
+
+                      
+                                  					 </div>
+			                                  
+			                                  </div>
+			                                   
+			                                  <div class="modal-footer">
+			                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+			                                   <!--  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button> -->
+			                                   <input class="btn btn-default" name="commit" type="submit" value="Guardar">
+			                                  </div>
+			                                    <% end %>
+			                                </div><!-- /.modal-content -->
+			                              </div><!-- /.modal-dialog -->
+			                            </div><!-- /.modal -->
+
+			                      
+
+
+			                  
+			                        
+			                       
+			                        <%= link_to @subjects.find(s.id), :method => 'delete', data: { confirm: '¿Está seguro de eliminar esta asignatura?' }, class: "btn btn-danger" do %>
+			                        <i class="fas fa-trash"></i> Borrar
+			                        <% end %>
+
+			                      </td>
+			                     </tr>
+			                    
+			                     <%end%>
+						                    </tbody>
+										</table>
+										</div>	
+																		
+													
+								</div>	
+								<!-- end card-body -->								
+								
+			  </div>
+		    </div>
+		  </div>
+		  <div id="headingThree">
+		    
+		    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+		      <div class="card mb-3">
+					
+							<div class="card-header">
+							<!-- <span class="pull-right"><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModaluser"><i class="fa fa-user-plus" aria-hidden="true"></i> Añadir usuario </button></span> -->
+						
+
+												
+								<h3><i class="fa fa-user"></i> Dashboard</h3>								
+								</div>
+								<!-- end card-header -->	
+											
+							<div class="card-body">
+													
+													
+										<div class="table-responsive">
+										<table class="table table-bordered">
+										  <thead>
+						                       <tr class="text-center">
+						                      <th scope="col">#</th>
+										      <th scope="col">Nombre</th>
+										      <th scope="col">Email</th>
+										      <th scope="col">Rol</th>
+										      <th scope="col"><i class="fas fa-cogs"></i></th>
+										  
+						                      </tr>
+						                    </thead>                    
+						                    <tbody>
+						                      <% @users.each do |user| %>
+						                       <tr class="text-center">              
+						                       <td> <%=user.id%> </td>
+						                       <td> <%=user.name%> </td>
+						                 
+											      <td> <%=user.email%> </td>
+											      <td><%=user.role.name%></td>
+											    
+											    
+													
+											     
+											     
+			                     <td class="text-center">
+			                       <%= link_to '<i class="fas fa-edit"></i> Editar'.html_safe,  '#', 'data-target' => "#myModal_#{user.id}", 'data-toggle' => 'modal', class: "btn btn-warning" %>
+			                       <!-- modal editar tutoria -->
+			                            <div class="modal fade" id='<%= "myModal_#{user.id}" %>' tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			                              <div class="modal-dialog" role="document">
+			                              <div class="modal-content">
+			                                <div class="modal-header">
+			                                  <h5 class="modal-title" id="exampleModalLabel">Editar Usuario <%=user.email%></h5>
+			                                </div>
+			                                  <div class="modal-body">
+			                                    <%= bootstrap_form_for(user) do |f| %>
+
+			                                      
+			                                      <div class="form-row">
+
+			                                        <div class="field col-md-7">
+			                                        
+			                            
+			                                          <%= f.select :role_id, [["Administrador", 1], ["Tutor",2],["Coordinador",3]], { label: "Seleccionar rol para este usuario: " }, { class: "selectpicker" } %>
+
+													
+
+			                                        </div>
+			                                        
+			                                      
+			                                      </div>
+			                                  
+			                                  </div>
+			                                   
+			                                  <div class="modal-footer">
+			                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+			                                   <!--  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button> -->
+			                                   <input class="btn btn-default" name="commit" type="submit" value="Guardar">
+			                                  </div>
+			                                    <% end %>
+			                                </div><!-- /.modal-content -->
+			                              </div><!-- /.modal-dialog -->
+			                            </div><!-- /.modal -->
+
+			                      
+
+
+			                  
+			                        
+			                       
+			                        <%= link_to @users.find(user.id), :method => 'delete', data: { confirm: '¿Está seguro de eliminar este usuario?' }, class: "btn btn-danger" do %>
+			                        <i class="fas fa-trash"></i> Borrar
+			                        <% end %>
+
+			                      </td>
+			                     </tr>
+			                    
+			                     <%end%>
+						                    </tbody>
+										</table>
+										</div>	
+																		
+													
+								</div>	
+								<!-- end card-body -->								
+								
+							  </div>
+						    </div>
+			</div>
+			<div  id="headingFour">
+		   
+		    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+		    	
+		      <div class="card mb-3 col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+					
+							<div class="card-header">
+							<!-- <span class="pull-right"><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModaluser"><i class="fa fa-user-plus" aria-hidden="true"></i> Añadir usuario </button></span> -->
+						
+
+												
+								<h3><i class="fas fa-graduation-cap"></i>
+									<% @department.each do |d|%>
+                                                             <%if d.id == @departmentid.to_i%>
+                                                             <%= d.name%>
+                                                             <%end%>
+                                                        <%end%>
+                                                        <%= link_to '<i class="fas fa-plus"></i> Añadir departamento'.html_safe,  '#', 'data-target' => "#nuevodepartamento", 'data-toggle' => 'modal', class: "btn btn-success pull-right" %>
+                                                        <%= link_to '<i class="fas fa-mouse-pointer"></i> Seleccionar departamento'.html_safe,  '#', 'data-target' => "#seleccionardepto", 'data-toggle' => 'modal', class: "btn btn-info pull-right", style: "margin-right:10px;" %></h3>
+                                                        
+		    	
+		    	 							
+								</div>
+								<!-- end card-header -->	
+											
+							<div class="card-body">
+													<%= link_to '<i class="fas fa-plus"></i> Añadir carrera'.html_safe,  '#', 'data-target' => "#nuevacarrera", 'data-toggle' => 'modal', class: "btn btn-success pull-right", style: "margin-bottom: 5px; margin-top: -10px;" %>
+													
+										<div class="table-responsive">
+										<table class="table table-bordered">
+										  <thead>
+						                       <tr class="text-center">
+						                      <th scope="col">Código</th>
+										      <th scope="col">Nombre</th>
+										      
+										      <th scope="col"><i class="fas fa-cogs"></i></th>
+										  
+						                      </tr>
+						                    </thead>                    
+						                    <tbody>
+						                      <% @career.each do |car| %>
+						                       <tr class="text-center">              
+						                       <td> <%=car.code%> </td>
+						                       <td> <%=car.name%> </td>
+						                
+											     
+											    
+											    
+													
+											     
+											     
+			                     <td >
+			                       <%= link_to '<i class="fas fa-edit"></i> Editar'.html_safe,  '#', 'data-target' => "#myModal22_#{car.id}", 'data-toggle' => 'modal', class: "btn btn-warning" %>
+			                       <!-- modal editar tutoria -->
+			                            <div class="modal fade" id='<%= "myModal22_#{car.id}" %>' tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			                              <div class="modal-dialog" role="document">
+			                              <div class="modal-content">
+			                                <div class="modal-header">
+			                                  <h5 class="modal-title text-left" id="exampleModalLabel">Editar Carrera <br><br> <b><h5 style="font-size: 18px;"><%=car.name%></h5></b></h5>
+			                                </div>
+			                                  <div class="modal-body">
+			                                    <%= bootstrap_form_for(car) do |f| %>
+
+			                                      
+									                 <div class="form-row">
+									              	  <div class="col-md-3">
+			                                          <%= f.number_field :code,:label=>"Código",:min=>1000,:max=>9999,:required => true %>
+			                                        </div>
+
+									                       
+									                   <div class="col-md-12">
+									                      <%= f.text_field :name,:label=>"Nombre",:required => true,:onkeypress=>"return isWord(event)" %>
+									                    </div>
+									                    
+									                
+
+									              
+									                 </div>
+			                                  
+			                                  </div>
+			                                   
+			                                  <div class="modal-footer">
+			                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+			                                   <!--  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button> -->
+			                                   <input class="btn btn-default" name="commit" type="submit" value="Guardar">
+			                                  </div>
+			                                    <% end %>
+			                                </div><!-- /.modal-content -->
+			                              </div><!-- /.modal-dialog -->
+			                            </div><!-- /.modal -->
+
+			                      
+
+
+			                  
+			                        
+			                       
+			                        <%= link_to @careers.find(car.id), :method => 'delete', data: { confirm: '¿Está seguro de eliminar esta carrera?' }, class: "btn btn-danger" do %>
+			                        <i class="fas fa-trash"></i> Borrar
+			                        <% end %>
+
+			                      </td>
+			                     </tr>
+			                    
+			                     <%end%>
+						                    </tbody>
+										</table>
+										</div>	
+																		
+													
+								</div>	
+								<!-- end card-body -->								
+								
+		</div>
+		    	
+		   	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 " style="margin-bottom: 60px;">
+		    		
+		    	</div>
+							
+		      <d
+			  
+			  
+		    </div>
+		  </div>
+		  <div  id="headingFive">
+		   
+		    <div id="collapseFive" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+		    	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 " style="margin-bottom: 60px;">
+		    		
+		    	</div>
+		      <div class="card mb-3 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+					
+							<div class="card-header">
+							<!-- <span class="pull-right"><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModaluser"><i class="fa fa-user-plus" aria-hidden="true"></i> Añadir usuario </button></span> -->
+						
+
+												
+								<h3><i class="fas fa-calendar-day"></i> Periodo</h3>								
+								</div>
+								<!-- end card-header -->	
+											
+							<div class="card-body">
+													
+													
+										
+                                    <%= bootstrap_form_tag(url: {:controller => "admin", :action => "chooseYear" }, multipart: true)  do |f| %>
+                                      <div class="form-row " >
+
+                                        <div class="field col-md-10 ">
+                                        
+                            
+                                        <%= f.date_select :periodo, discard_day: true, discard_month: true, hide_label: true%>
+
+
+                                        </div>
+                                        <div class="field col-md-2">
+                                        <input class="btn btn-default" id="guardarcarrera" name="commit" type="submit" value="Guardar">
+                                  		 </div>
+                                       
+                                        
+                                      
+                                      </div>
+                                     
+                                  <% end %>
+																		
+													
+								</div>	
+								<!-- end card-body -->								
+								
+			  </div>
+		    </div>
+		  </div>
+				</div>					
+										
+							
+					
+
+			
+			<!-- end col -->	
+												
+		</div>
+		<!-- end row -->	
+
+            </div>
+			<!-- END container-fluid -->
+
+		</div>
+		<!-- END content -->
+
+    </div>
+
+<!-- modal nuevo usuario -->
+
+
+<div class="modal fade" id='<%= "desercion"%>' tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Subir archivos de probabilidad de deserción</h5>
+        <a id="popover" tabindex="0" data-trigger="focus" class="btn" style="font-size: 18px;" rel="popover" data-content="" title="Formato de los archivos"><i class="fas fa-question-circle"></i></a>
+        
+      </div>
+        <div class="modal-body">
+         
+			<div class="row">
+				
+				<div class="form-group col-md-12">
+					<label >Subir archivos con extensión .csv</label> <br>
+
+				<%= form_with(url: {action: :upload}, multipart: true) do %>
+
+				   <%@carreers4department.each_with_index do |id,index|%>
+					 <div class="col-md-12" style="margin-bottom: 15px;">
+					 	<label for=<%="picture"+index.to_s %> ><%=Career.where(id:id).pluck(:name).to_sentence%></label> <br>
+					  <%= file_field_tag 'picture'+index.to_s, onchange: "validateFiles(this);",:accept => 'text/csv', :required => true%>
+					 </div>
+				   <%end%>
+
+<script>
+	function validateFiles(inputFile) {
+  
+  var extErrorMessage = "Solo se permiten archivos con extensión .csv.\nPor favor, seleccione un archivo válido";
+  var allowedExtension = ["csv"];
+
+  var extName;
+
+  var sizeExceeded = false;
+  var extError = false;
+
+  $.each(inputFile.files, function() {
+    
+    extName = this.name.split('.').pop();
+    if ($.inArray(extName, allowedExtension) == -1) {extError=true;};
+  });
+  if (sizeExceeded) {
+    window.alert(maxExceededMessage);
+    $(inputFile).val('');
+  };
+
+  if (extError) {
+    window.alert(extErrorMessage);
+    $(inputFile).val('');
+  };
+}
+</script>
+
+
+		
+			  	</div>
+			</div>
+			
+        
+        </div>
+         
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+         <!--  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button> -->
+         <input class="btn btn-default" name="commit" type="submit" value="Guardar">
+        </div>
+          <% end %>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id='nuevousuario' tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nuevo usuario</h5>
+      </div>
+        <div class="modal-body">
+          <%= bootstrap_form_for(:user, :url => user_registration_path, :html => { :method => :post }) do |f|  %>
+            
+                  <div class="form-row">
+                  	  <div class="col-md-12">
+                <%= f.email_field :email,:label=>"Email",:required => true %>
+              
+              </div>
+
+                       
+                        <div class="col-md-12">
+                      <%= f.text_field :firstname,:label=>"Nombres",:required => true,:onkeypress=>"return isWord(event)"%>
+                    </div>
+                    <div class="col-md-12">
+                        <%= f.text_field :lastname,:label=>"Apellidos",:required => true,:onkeypress=>"return isWord(event)" %>
+                    </div>
+					
+				  <div class="col-md-6">
+				    <%= f.select(:role_id, options_from_collection_for_select(Role.all, :id, :name ),:label=>"Rol",:required => true) %>
+				  </div>
+                
+				<div class="col-md-6">
+	                <%= f.select(:department_id, options_from_collection_for_select(Department.all, :id, :name ),:label=>"Departamento",:required => true) %>
+				  </div>
+              
+                   </div>
+                 
+        
+        </div>
+         
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+         <!--  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button> -->
+        
+         <input class="btn btn-default" name="commit" type="submit" value="Guardar" >
+         
+        </div>
+          <% end %>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id='seleccionardepto' tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Seleccionar departamento</h5>
+      </div>
+        <div class="modal-body">
+        	<%= bootstrap_form_tag(url: {:controller => "departments", :action => "chooseCarrer" }, multipart: true)  do |f| %>
+                                      <div class="form-row">
+
+                                        <div class="field col-md-10">
+                                        
+                            
+                                          <%= f.select(:department, options_from_collection_for_select(Department.all, :id, :name),:label=>"Departamento",:prompt => 'Seleccione Departamento',hide_label: true) %>
+
+
+                                        </div>
+                                        
+                                       
+                                        
+                                      
+                                      </div>
+                                     
+                                  
+                 
+        
+        </div>
+         
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+         <!--  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button> -->
+        
+         <input class="btn btn-default" name="commit" type="submit" value="Guardar" >
+         
+        </div>
+          <% end %>
+          
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<div class="modal fade" id='nuevodepartamento' tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nuevo departamento</h5>
+      </div>
+        <div class="modal-body">
+        	<%= bootstrap_form_for(:department, :url => '/departments', :html => { :method => :post }) do |f|   %>
+            
+              	   <div class="form-row">
+	                  	<div class="col-md-12">
+			               <%= f.text_field :name,:label=>"Nombre",:required => true, :value => '' %>
+			            </div>
+
+						
+
+						  
+
+						  
+
+         				
+
+        
+
+      
+                   </div>
+                 
+        
+        </div>
+         
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+         <!--  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button> -->
+        
+         <input class="btn btn-default" name="commit" type="submit" value="Guardar" >
+         
+        </div>
+          <% end %>
+          
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id='nuevacarrera' tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nueva carrera</h5>
+      </div>
+        <div class="modal-body">
+        	<%= bootstrap_form_tag(:url => '/careers', :html => { :method => :post }) do |f|   %>
+            
+              	   <div class="form-row">
+	                  	  <div class="col-md-7">
+			                <%= f.text_field :name,:label=>"Nombre",:required => true %>
+			              
+			              </div>
+
+         				<div class="col-md-3">
+                          <%= f.number_field :code,:label=>"Código",:min=>1000,:max=>9999,:required => true %>
+                        </div>
+                        <%= f.hidden_field :department_id, :value => @departmentid.to_i %>
+
+        
+
+      
+                   </div>
+                 
+        
+        </div>
+         
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+         <!--  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button> -->
+        
+         <input class="btn btn-default" name="commit" type="submit" value="Guardar" >
+         
+        </div>
+          <% end %>
+          
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id='nuevaasignatura' tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nueva asignatura</h5>
+      </div>
+        <div class="modal-body">
+        	<%= bootstrap_form_for(:subject, :url => '/subjects', :html => { :method => :post }) do |f|   %>
+            
+              	   <div class="form-row">
+	                  	  <div class="col-md-7">
+			                <%= f.text_field :name,:label=>"Nombre",:required => true %>
+			              
+			              </div>
+
+         				<div class="col-md-3">
+                          <%= f.number_field :level,:label=>"Nivel",:min=>1,:max=>12,:required => true %>
+                        </div>
+
+        
+
+      
+                   </div>
+                 
+        
+        </div>
+         
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+         <!--  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button> -->
+        
+         <input class="btn btn-default" name="commit" type="submit" value="Guardar" >
+         
+        </div>
+          <% end %>
+          
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+  <script>
+    function isNumberKey(evt){
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}
+    function check(e) {
+        tecla = (document.all) ? e.keyCode : e.which;
+
+        //Tecla de retroceso para borrar, siempre la permite
+        if (tecla == 8) {
+            return true;
+        }
+
+        // Patron de entrada, en este caso solo acepta numeros y letras
+        patron = /[A-Za-z0-9]/;
+        tecla_final = String.fromCharCode(tecla);
+        return patron.test(tecla_final);
+    }
+    function isWord(e) {
+        tecla = (document.all) ? e.keyCode : e.which;
+
+        //Tecla de retroceso para borrar, siempre la permite
+        if (tecla == 8) {
+            return true;
+        }
+
+        // Patron de entrada, en este caso solo acepta numeros y letras
+        patron = /[A-Za-z_ .-]/;
+        tecla_final = String.fromCharCode(tecla);
+        return patron.test(tecla_final);
+    }
+
+    $("#datepicker").datepicker({
+    format: "yyyy",
+    viewMode: "years", 
+    minViewMode: "years"
+});
+
+  </script>
+<style>
+	  .btn-warning,.btn-danger:visited {
+   color:white !important;
+}
+.popover {
+  max-width: 100% !important;
+}
+.card {
+        margin: 0 auto; /* Added */
+        float: none; /* Added */
+        margin-bottom: 10px; /* Added */
+}
+
+.bg-danger:hover{
+	background-color: #78168c !important;
+}
+.bg-success{
+	background-color: #28a020 !important;
+
+}
+.bg-info{
+	background-color: #4b51d1 !important;
+}
+.bg-info:hover{
+	background-color: #34398e !important;
+}
+.bg-act{
+	background-color: #fc6225 !important;
+}
+.bg-act:hover{
+	background-color: #cc4f22 !important;
+}
+.bg-success:hover{
+	background-color: #1d7a17 !important;
+
+}
+#popover:hover{
+  background-color: none !important;
+  color: #af5d00 !important;
+
+}
+a#popover:hover{
+  background-color: white !important;
+
+}
+
+#popover{
+  color: #DD7900 !important;
+}
+
+
+</style>
+<script>
+	
+</script>
+<script>
+	$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+
+$(document).ready(function() {
+	$('#popoveruserData').popover();
+	$('#popoversubjectData').popover();
+	$('#popovercareerData').popover();
+	$('#popoversubirData').popover();
+	$('#popoverperiodData').popover();
+	$('#popoveractualizarData').popover();
+
+  var image = '<center><img src="../assets/images/ejemploarchivo.png"></center>';
+
+  $('#popover').popover({
+    placement: 'bottom',
+    content: '<ul> <li type="disc">Los archivos deben tener extensión .csv </li> <li type="disc">La probabilidad de deserción, debe estar expresada con un punto como delimitador de decimales (ej: 0.73)</li><li type="disc">Deben estar presentes los encabezados "id";"rut_cifrado";"pred_des"</li> <li type="disc">Un ejemplo de como se debe ver el archivo a subir es el siguiente: </li> </ul>'+image,
+    html: true
+  });
+});
+</script>

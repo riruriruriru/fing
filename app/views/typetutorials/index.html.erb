@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Typetutorials</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Tutorial</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @typetutorials.each do |typetutorial| %>
+      <tr>
+        <td><%= typetutorial.type %></td>
+        <td><%= typetutorial.tutorial %></td>
+        <td><%= link_to 'Show', typetutorial %></td>
+        <td><%= link_to 'Edit', edit_typetutorial_path(typetutorial) %></td>
+        <td><%= link_to 'Destroy', typetutorial, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Typetutorial', new_typetutorial_path %>

@@ -1,0 +1,418 @@
+<div class="content-page">
+  
+    <!-- Start content -->
+        <div class="content">
+            
+      <div class="container-fluid">
+          
+            <div class="row">
+				<div class="col-xl-12">
+              <div class="breadcrumb-holder">
+               
+                <%= link_to '<i class="fas fa-arrow-left"></i>'.html_safe, :back , class: "btn btn-secondary float-left",'data-target' =>"tooltip", 'data-placement'=>"bottom",'title'=>"Volver" %>
+                      <h1 class="main-title float-left">Estudiantes ingreso <%=@period%> <a id="popover" tabindex="0" data-trigger="focus" class="btn" style="font-size: 18px;" rel="popover" data-content="" title="Estudiantes"><i class="fas fa-info-circle"></i></a></h1>  
+            
+                      <ol class="breadcrumb float-right">
+                        
+                      </ol>
+                      <div class="clearfix"></div>
+              </div>
+              </div>
+            </div>
+            <% if !!flash[:noticen]%>
+                        <div class="row animated fadeInRight" id="notification">
+                            <div class="alert alert-danger pull-right " role="alert" >
+                         
+                         <%= flash[:noticen]%>
+                          
+                         
+                        </div>
+                        </div>
+                <% end %>
+                <% if !!flash[:noticep]%>
+                        <div class="row animated fadeInRight" id="notification">
+                            <div class="alert alert-success pull-right " role="alert" >
+                         
+                         <%= flash[:noticep]%>
+                          
+                         
+                        </div>
+                        </div>
+                         <% end %>
+                         <script type="text/javascript">
+
+                        $(document).ready(function () {
+                         
+                        window.setTimeout(function() {
+                            $("#notification").fadeTo(200, 0).slideUp(500, function(){
+                                $(this).remove(); 
+                            });
+                        }, 5000);
+                         
+                        });
+
+                        </script>
+
+                <div class="row"></div>
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">           
+              <div class="card mb-3">
+                <div class="card-header row">
+                  <h3 class="col-md-10"></h3>
+                  <%= link_to '<i class="fas fa-plus"></i> Añadir estudiante'.html_safe,  '#', 'data-target' => "#myModal3", 'data-toggle' => 'modal', class: "btn btn-success" %>
+                </div>
+                  
+                <div class="card-body">
+                  <div class="table-responsive">
+                  <table id="estudiantes" class="table table-bordered table-hover display">
+                    <thead>
+                      <tr>
+                 
+				      <th scope="col">Rut</th>
+				      <th scope="col">Nombre</th>
+				      <th scope="col">Apellidos</th>
+				      <th scope="col">Email</th>
+				      <th scope="col">Carrera</th>
+				      <th scope="col">Nivel</th>
+              <th scope="col"></th>
+              <% if current_user.coordinador? || current_user.admin? %>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <% end%>
+                      </tr>
+                    </thead>                    
+                    <tbody>
+                      <% @students.each do |student| %>
+                      <tr >                  
+                    <% if student.department_id == current_user.department_id%>
+                     
+					      <td> <%=student.rut%>-<%=student.dv%> </td>
+					      <td> <%=student.firstname%> </td>
+					      <td> <%=student.lastname%> <%=student.lastnamema%> </td>
+					      <td> <%=student.email%> </td>
+                  <% @careers.each do |career|%>
+                    <%if student.careercode == career.code%>
+                      <td> <%= career.name%> </td>
+                    <%end%>
+                   <% end%>
+					      
+
+					      <td> <%=student.level%> </td>
+                <td class="text-center"> 
+             
+                  <%= link_to '<i class="fas fa-search-plus"></i>'.html_safe,  '/students/'+student.id.to_s, class: "btn btn-info", 
+                  'data-target' =>"tooltip", 'data-placement'=>"bottom",'title'=>"Ver perfil" %>
+
+
+                      </td>
+                     <% if current_user.coordinador? || current_user.admin? %>
+                      <td class="text-center">
+                        <%= link_to @students.find(student.id), :method => 'delete', data: { confirm: '¿Está seguro de eliminar este estudiante?' }, class: "btn btn-danger",'data-target' =>"tooltip", 'data-placement'=>"bottom",'title'=>"Borrar" do %>
+                        <i class="fas fa-trash"></i>
+                         <% end %>
+                      </td>
+                      <td class="text-center">
+                        <%= link_to '<i class="fas fa-edit"></i>'.html_safe,  '#', 'data-target' => "#myModal_#{student.id},tooltip", 'data-toggle' => 'modal', class: "btn btn-warning", 'data-placement'=>"bottom",'title'=>"Editar" %>
+                       <!-- modal editar tutoria -->
+                            <div class="modal fade" id='<%= "myModal_#{student.id}" %>' tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Editar Estudiante</h5>
+                                </div>
+                                  <div class="modal-body">
+                                    <%= bootstrap_form_for(student) do |f| %>
+                                      <div class="form-row">
+
+                                        <div class="col-md-5">
+                                            <%= f.text_field :rut,:label=>"Rut del alumno",:required => true,:onkeypress =>"return isNumberKey(event)" %>
+                                          </div>
+                                          <div class="col-md-1" style="margin-top: 20px; font-size: 30px; text-align: center; margin-left: -10px; margin-right: -10px;">
+                                            -
+                                          </div>
+                                        <div class="col-md-2">
+                                          <%= f.text_field :dv, label: false ,:required => true,:onkeypress=>"return check(event)",:maxlength=>"1" %>
+                                        </div>
+
+                                       
+                                       
+                                        <div class="col-md-12">
+                                          <%= f.text_field :firstname,:label=>"Nombres",:required => true,:onkeypress=>"return isWord(event)", :style=>"text-transform:uppercase" %>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <%= f.text_field :lastname,:label=>"Apellido paterno",:required => true,:onkeypress=>"return isWord(event)",:style=>"text-transform:uppercase" %>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <%= f.text_field :lastnamema,:label=>"Apellido materno",:required => true,:onkeypress=>"return isWord(event)",:style=>"text-transform:uppercase" %>
+                                        </div>
+
+                                      
+                                        <div class="col-md-7">
+                                          <%= f.email_field :email,:label=>"Email",:required => true %>
+                                        
+                                        </div>
+                                        <div class="col-md-3">
+                                          <%= f.number_field :level,:label=>"Nivel",:min=>1,:max=>12,:required => true %>
+                                        </div>
+                                        <div class="col-md-12">
+                                          <%= f.select(:careercode, options_from_collection_for_select(Career.all, :code, :name),:label=>"Carrera",:required => true) %>
+                                        </div>
+                                      
+                                      </div>
+                                  
+                                  </div>
+                                   
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                   <!--  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button> -->
+                                   <input class="btn btn-default" name="commit" type="submit" value="Guardar">
+                                  </div>
+                                    <% end %>
+                                </div><!-- /.modal-content -->
+                              </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+
+                      </td>
+                       <% end %>
+            		   </tr>
+                    
+                     <%end%>
+                     <%end%>
+
+                    </tbody>
+                  </table>
+                  </div>
+                  
+                </div>                            
+              </div><!-- end card-->          
+            </div>
+            
+            </div>
+      </div>
+    </div>
+</div>
+<style>
+  .btn-secondary{
+ 
+  color: white !important;
+  background-color: #a3a3a3 !important;
+  border-color: #a3a3a3 !important;
+}
+.btn-secondary:hover{
+  background-color: #7f7e7e !important;
+  border-color: #7f7e7e !important;
+ 
+}
+</style>
+
+<div class="modal fade" id='<%= "myModal3"%>' tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nuevo estudiante</h5>
+      </div>
+        <div class="modal-body">
+          <%= bootstrap_form_for(:student) do |f| %>
+            <div class="form-row">
+
+              
+              
+           
+                <div class="col-md-5">
+                  <%= f.text_field :rut,:label=>"Rut del alumno",:required => true,:onkeypress =>"return isNumberKey(event)" %>
+                </div>
+                <div class="col-md-1" style="margin-top: 20px; font-size: 30px; text-align: center; margin-left: -10px; margin-right: -10px;">
+                  -
+                </div>
+              <div class="col-md-2">
+                <%= f.text_field :dv, label: false ,:required => true,:onkeypress=>"return check(event)",:maxlength=>"1" %>
+              </div>
+              <div class="col-md-3">
+                <%= f.number_field :entry,:label=>"Año de ingreso",:min=>2010,:max=>Time.zone.now.year,:value => @period,:required => true,:id => 'anioingreso'%> 
+              </div>
+              <div class="col-md-12">
+                  <%= f.text_field :department_id,:label=>"Id Departamento",:required => true,:onkeypress =>"return isNumberKey(event)" %>
+                </div>
+
+                <div class="col-md-12">
+                <%= f.select(:department_id, options_from_collection_for_select(Department.all, :id, :name ),:label=>"Departamento",:required => true) %>
+              </div>
+             
+              <div class="col-md-12">
+                <%= f.text_field :firstname,:label=>"Nombres",:required => true,:onkeypress=>"return isWord(event)", :style=>"text-transform:uppercase" %>
+              </div>
+              <div class="col-md-6">
+                  <%= f.text_field :lastname,:label=>"Apellido paterno",:required => true,:onkeypress=>"return isWord(event)",:style=>"text-transform:uppercase" %>
+              </div>
+              <div class="col-md-6">
+                  <%= f.text_field :lastnamema,:label=>"Apellido materno",:required => true,:onkeypress=>"return isWord(event)",:style=>"text-transform:uppercase" %>
+              </div>
+
+            
+              <div class="col-md-7">
+                <%= f.email_field :email,:label=>"Email",:required => true %>
+              
+              </div>
+              <div class="col-md-3">
+                <%= f.number_field :level,:label=>"Nivel",:min=>1,:max=>12,:required => true %>
+              </div>
+              
+              <div class="col-md-12">
+                <%= f.select(:careercode, options_from_collection_for_select(Career.where(id:@carreers4department[0]).or(Career.where(id:@carreers4department[1])).or(Career.where(id:@carreers4department[2])).or(Career.where(id:@carreers4department[3])), :code, :name),:label=>"Carrera",:required => true) %>
+              </div>
+            
+               
+              
+
+            
+            </div>
+        
+        </div>
+         
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+         <!--  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button> -->
+         <input class="btn btn-default" name="commit" type="submit" value="Guardar">
+        </div>
+          <% end %>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+  <script>
+    function isNumberKey(evt){
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}
+    function check(e) {
+        tecla = (document.all) ? e.keyCode : e.which;
+
+        //Tecla de retroceso para borrar, siempre la permite
+        if (tecla == 8) {
+            return true;
+        }
+
+        // Patron de entrada, en este caso solo acepta numeros y letras
+        patron = /[A-Za-z0-9]/;
+        tecla_final = String.fromCharCode(tecla);
+        return patron.test(tecla_final);
+    }
+    function isWord(e) {
+        tecla = (document.all) ? e.keyCode : e.which;
+
+        //Tecla de retroceso para borrar, siempre la permite
+        if (tecla == 8) {
+            return true;
+        }
+
+        // Patron de entrada, en este caso solo acepta numeros y letras
+        patron = /[A-Za-z -]/;
+        tecla_final = String.fromCharCode(tecla);
+        return patron.test(tecla_final);
+    }
+
+  </script>
+  <style>
+    label{
+  font-size: 16px;
+  text-align: left;
+  display: inherit;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+.btn-secondary{
+
+  color: white !important;
+  background-color: #a3a3a3 !important;
+  border-color: #a3a3a3 !important;
+}
+.btn-secondary:hover{
+  background-color: #7f7e7e !important;
+  border-color: #7f7e7e !important;}
+
+#popover:hover{
+  background-color: none !important;
+  color: #af5d00 !important;
+
+}
+a#popover:hover{
+  background-color: white !important;
+
+}
+
+#popover{
+  color: #DD7900 !important;
+}
+  </style>
+<script>
+
+
+               $(document).ready(function () {
+                    
+                $(function () {
+                        $("#anioingreso")
+                            .popover({ title: 'Año de ingreso', content: "Si modifica el año de ingreso, el estudiante no será mostrado en la lista hasta que se cambie el periodo de la plataforma" })
+                            .blur(function () {
+                                $(this).popover('hide');
+                            });
+                    });
+                         
+                });
+
+                  
+              </script>
+  <script>
+  $(function () {
+  $('[data-toggle="popover"]').popover()
+})
+
+$(document).ready(function() {
+
+  $('#popover').popover({
+    placement: 'bottom',
+    content: 'Los estudiantes con ingreso <%=@period%> son los que se listan. <br> Si desea listar estudiantes con otro año de ingreso, pida a un administrador cambiar el periodo de la plataforma.',
+    html: true
+  });
+});
+</script>
+
+   <script>
+        $(document).ready(function() {
+
+            // data-tables
+            $('#estudiantes').DataTable({
+              "order": [2, 'asc' ],
+              "language": {
+                        "sProcessing":     "Procesando...",
+                        "sLengthMenu":     "Mostrar _MENU_ registros",
+                        "sZeroRecords":    "No se encontraron resultados",
+                        "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                        "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix":    "",
+                        "sSearch":         "Buscar:",
+                        "sUrl":            "",
+                        "sInfoThousands":  ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst":    "Primero",
+                            "sLast":     "Último",
+                            "sNext":     "Siguiente",
+                            "sPrevious": "Anterior"
+                        },
+                        "oAria": {
+                            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                                  }
+                       }
+            });
+
+                    
+            // counter-up
+            $('.counter').counterUp({
+                delay: 10,
+                time: 600
+            });
+        } );        
+    </script>

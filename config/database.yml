@@ -1,0 +1,22 @@
+default: &default  
+  adapter: postgresql  
+  encoding: unicode  
+  username: postgres  
+  pool: 5  
+  host: db 
+
+development:
+  adapter: postgresql  
+  encoding: unicode  
+  username: postgres
+  password: secret
+  pool: 5  
+  host: localhost
+  database: C404SM_development
+
+
+production:  
+  <<: *default  
+  database: C404SM_production
+
+

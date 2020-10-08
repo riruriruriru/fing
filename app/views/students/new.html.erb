@@ -1,0 +1,53 @@
+
+
+
+<div class="content-page">
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="breadcrumb-holder">
+            <%= link_to '<i class="fas fa-arrow-left"></i> '.html_safe, :back , class: "btn btn-secondary float-left" %>
+              <h1 class="main-title float-left">Nuevo Estudiante</h1>
+              <ol class="breadcrumb float-right"></ol>
+              <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+      <!-- end row -->
+
+      <%= render 'form' %>
+      <!-- end row -->
+
+    </div>
+  </div>
+</div>
+
+
+<style>
+  .btn-primary{
+    margin-top: 8px;
+    color: white !important;
+    background-color: #002F6C !important;
+    border-color: #002F6C  !important;
+}
+  .btn-secondary{
+  margin-top: 8px;
+  color: white !important;
+  background-color: #a3a3a3 !important;
+  border-color: #a3a3a3 !important;
+}
+.btn-secondary:hover{
+  background-color: #7f7e7e !important;
+  border-color: #7f7e7e !important;
+ 
+}
+.imgRedonda {
+    width:300px;
+    height:300px;
+    border-radius:150px;
+}
+h3{
+	font-size: 16px;
+}
+</style>

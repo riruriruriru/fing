@@ -1,0 +1,47 @@
+<%= form_with(model: studentannotation, local: true) do |form| %>
+  <% if studentannotation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(studentannotation.errors.count, "error") %> prohibited this studentannotation from being saved:</h2>
+
+      <ul>
+      <% studentannotation.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :times %>
+    <%= form.date_select :times %>
+  </div>
+
+  <div class="field">
+    <%= form.label :comment %>
+    <%= form.text_area :comment %>
+  </div>
+
+  <div class="field">
+    <%= form.label :statusannotation_id %>
+    <%= form.text_field :statusannotation_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :typeannotation_id %>
+    <%= form.text_field :typeannotation_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :user_id %>
+    <%= form.text_field :user_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :user_id %>
+    <%= form.text_field :user_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

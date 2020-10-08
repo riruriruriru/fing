@@ -1,0 +1,117 @@
+<div class="content-page">
+	
+		<!-- Start content -->
+        <div class="content">
+            
+			<div class="container-fluid">
+
+					
+						<div class="row">
+								<div class="col-xl-12">
+              <div class="breadcrumb-holder">
+                
+                <%= link_to '<i class="fas fa-arrow-left"></i> '.html_safe, :back , class: "btn btn-secondary float-left" %>
+                      <h1 class="main-title float-left">Perfil Tutor</h1>
+                      <ol class="breadcrumb float-right">
+                        
+                      </ol>
+                      <div class="clearfix"></div>
+              </div>
+              </div>
+						</div>
+						<!-- end row -->
+
+							
+							
+						<div class="row">
+
+							
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">	
+
+										<div class="card mb-3">
+											
+											<div class="card-body">
+												
+												
+												
+												<div class="row">
+												
+												<div class="col-lg-5 col-xl-5">
+													
+													<h2><%= @tutor.firstname%> <%= @tutor.lastname%></h2>
+													<h3>Correo: <%= @tutor.email%></h3>
+													<h3>Rut: <%= @tutor.rut%>-<%= @tutor.dv%></h3>
+													<h3>Teléfono: <%= @tutor.phone%></h3>
+													
+													
+													
+													
+												
+												</div>
+												<div class="col-md-4"></div>
+												<div class="col-lg-3 col-xl-3 pull-right">
+		                                            <div class="card-box noradius noborder bg-success row">
+		                                            	<div class="col-lg-5">
+		                                            		<i class="fas fa-chalkboard-teacher"></i>  
+		                                            	</div>
+		                                                    
+		                                                 <div class="col-lg-7">
+		                                                 	<h6 class="text-white text-uppercase m-b-20">Asistencia a  &nbsp  Tutorías</h6>
+
+		                                                    <h1 class="m-b-20 text-white "><%= @presente%>/<%= @presente+@ausente%></h1>
+		                                                 </div>
+		                                                    
+		                                            </div>
+		                                    	</div>
+		                                    	
+												
+												
+												
+												
+												</div>								
+												
+												</form>										
+												
+								</div>	
+								<!-- end card-body -->								
+									
+							</div>
+							<!-- end card -->					
+
+						</div>
+						<!-- end col -->	
+															
+					</div>
+					<!-- end row -->	
+
+
+            </div>
+			<!-- END container-fluid -->
+
+		</div>
+		<!-- END content -->
+
+    </div>
+
+<style>
+  .btn-secondary{
+  margin-top: 8px;
+  color: white !important;
+  background-color: #a3a3a3 !important;
+  border-color: #a3a3a3 !important;
+}
+.btn-secondary:hover{
+  background-color: #7f7e7e !important;
+  border-color: #7f7e7e !important;
+ 
+}
+.imgRedonda {
+    width:300px;
+    height:300px;
+    border-radius:150px;
+}
+h3{
+	font-size: 16px;
+}
+</style>
+

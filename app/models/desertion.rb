@@ -1,0 +1,2 @@
+class Desertion < ApplicationRecord
+end

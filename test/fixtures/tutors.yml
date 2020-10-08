@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  rut: 1
+  firstname: MyString
+  lastname: MyString
+  email: MyString
+  phone: 1
+  level: 1
+  careercode: 1
+
+two:
+  rut: 1
+  firstname: MyString
+  lastname: MyString
+  email: MyString
+  phone: 1
+  level: 1
+  careercode: 1

@@ -1,0 +1,27 @@
+<%= form_with(model: typetutorial, local: true) do |form| %>
+  <% if typetutorial.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(typetutorial.errors.count, "error") %> prohibited this typetutorial from being saved:</h2>
+
+      <ul>
+      <% typetutorial.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :type_id %>
+    <%= form.text_field :type_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :tutorial_id %>
+    <%= form.text_field :tutorial_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

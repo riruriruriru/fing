@@ -1,0 +1,330 @@
+
+<div class="content-page">
+  
+    <!-- Start content -->
+      <div class="content">
+            
+        <div class="container-fluid">
+          
+            <div class="row">
+              <div class="col-xl-12">
+              <div class="breadcrumb-holder">
+                
+                <%= link_to '<i class="fas fa-arrow-left"></i>'.html_safe, '/' , class: "btn btn-secondary float-left",'data-target' =>"tooltip", 'data-placement'=>"bottom",'title'=>"Volver" %>
+                      <h1 class="main-title float-left">Tutores</h1>
+                      <ol class="breadcrumb float-right">
+                        
+                      </ol>
+                      <div class="clearfix"></div>
+              </div>
+              </div>
+            </div>
+            <% if !!flash[:noticen]%>
+                        <div class="row animated fadeInRight" id="notification">
+                            <div class="alert alert-danger pull-right " role="alert" >
+                         
+                         <%= flash[:noticen]%>
+                          
+                         
+                        </div>
+                        </div>
+                <% end %>
+                <% if !!flash[:noticep]%>
+                        <div class="row animated fadeInRight" id="notification">
+                            <div class="alert alert-success pull-right " role="alert" >
+                         
+                         <%= flash[:noticep]%>
+                          
+                         
+                        </div>
+                        </div>
+                         <% end %>
+                         <script type="text/javascript">
+
+                        $(document).ready(function () {
+                         
+                        window.setTimeout(function() {
+                            $("#notification").fadeTo(200, 0).slideUp(500, function(){
+                                $(this).remove(); 
+                            });
+                        }, 5000);
+                         
+                        });
+
+                        </script>
+
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">           
+              <div class="card mb-3">
+                <div class="card-header row">
+                  <h3 class="col-md-10"></h3>
+                   <%= link_to '<i class="fas fa-plus"></i> Añadir tutor'.html_safe,  '#', 'data-target' => "#myModal3", 'data-toggle' => 'modal', class: "btn btn-success" %>
+                </div>
+                  
+                <div class="card-body">
+                  <div class="table-responsive">
+                  <table id="example1" class="table table-bordered table-hover display">
+                    <thead>
+                      <tr>
+                  
+              
+                    <th scope="col">Rut</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Teléfono</th>
+                    <th scope="col">Cód. Carrera</th>
+                    <th scope="col">Nivel</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                      </tr>
+                    </thead>                    
+                    <tbody>
+                     <% @tutors.each do |tutor| %>
+                     <% if tutor.department_id == current_user.department_id%>
+                      <tr>
+
+                        <td> <%=tutor.rut%>-<%=tutor.dv%> </td>
+                        <td> <%=tutor.firstname%> </td>
+                        <td> <%=tutor.lastname%> <%=tutor.lastnamema%> </td>
+                        <td> <%=tutor.email%> </td>
+                        <td> <%=tutor.phone%> </td>
+                        <% @careers.each do |career|%>
+                          <%if tutor.careercode == career.code%>
+                            <td> <%= career.name%> </td>
+                          <%end%>
+                         <% end%>
+                        <td> <%=tutor.level%> </td>
+                       
+                         <td class="text-center"> 
+             
+                  <%= link_to '<i class="fas fa-search-plus"></i>'.html_safe,  '/tutors/'+tutor.id.to_s, class: "btn btn-info", 
+                  'data-target' =>"tooltip", 'data-placement'=>"bottom",'title'=>"Ver perfil" %>
+
+
+                      
+                      <td class="text-center">
+                        <%= link_to @tutors.find(tutor.id), :method => 'delete', data: { confirm: '¿Está seguro de eliminar este tutor?' }, class: "btn btn-danger",'data-target' =>"tooltip", 'data-placement'=>"bottom",'title'=>"Borrar" do %>
+                        <i class="fas fa-trash"></i>
+                         <% end %>
+                      </td>
+                      
+                      <td class="text-center">
+                        <%= link_to '<i class="fas fa-edit"></i>'.html_safe,  '#', 'data-target' => "#myModal_#{tutor.id},tooltip", 'data-toggle' => 'modal', class: "btn btn-warning", 'data-placement'=>"bottom",'title'=>"Editar" %>
+                       <!-- modal editar tutoria -->
+                            <div class="modal fade" id='<%= "myModal_#{tutor.id}" %>' tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Editar Tutor</h5>
+                                </div>
+                                  <div class="modal-body">
+                                    <%= bootstrap_form_for(tutor) do |f| %>
+                                      <div class="form-row">
+                                        <div class="col-md-5">
+                                          <%= f.text_field :rut,:label=>"Rut del alumno",:required => true,:onkeypress =>"return isNumberKey(event)" %>
+                                        </div>
+                                        <div class="col-md-1" style="margin-top: 20px; font-size: 30px; text-align: center; margin-left: -10px; margin-right: -10px;">
+                                          -
+                                        </div>
+                                      <div class="col-md-2">
+                                         <%= f.text_field :dv, label: false ,:required => true,:onkeypress=>"return check(event)",:maxlength=>"1" %>
+                                      </div>
+
+                                     
+                                     
+                                      <div class="col-md-12">
+                                        <%= f.text_field :firstname,:label=>"Nombres",:required => true,:onkeypress=>"return isWord(event)", :style=>"text-transform:uppercase" %>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <%= f.text_field :lastname,:label=>"Apellido paterno",:required => true,:onkeypress=>"return isWord(event)",:style=>"text-transform:uppercase" %>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <%= f.text_field :lastnamema,:label=>"Apellido materno",:required => true,:onkeypress=>"return isWord(event)",:style=>"text-transform:uppercase" %>
+                                      </div>
+
+                                    
+                                      <div class="col-md-7">
+                                        <%= f.email_field :email,:label=>"Email",:required => true %>
+                                      
+                                      </div>
+                                      <div class="col-md-7">
+                                        <%= f.text_field :phone, :label=>"Teléfono",:required => true ,:onkeypress =>"return isphone(event)"%>
+                                      
+                                      </div>
+                                      <div class="col-md-3">
+                                        <%= f.number_field :level,:label=>"Nivel",:min=>1,:max=>12,:required => true %>
+                                      </div>
+                                      <div class="col-md-12">
+                                        <%= f.select(:careercode, options_from_collection_for_select(Career.all, :code, :name),:label=>"Carrera",:required => true) %>
+                                      </div>
+                                        
+                                      </div>
+                                  
+                                  </div>
+                                   
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                   <!--  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button> -->
+                                   <input class="btn btn-default" name="commit" type="submit" value="Guardar">
+                                  </div>
+                                    <% end %>
+                                </div><!-- /.modal-content -->
+                              </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+
+                     
+
+                        </td>
+                      </tr>
+                    
+                     <%end%>
+                     <%end%>
+                    </tbody>
+                  </table>
+                  </div>
+                  
+                </div>                            
+              </div><!-- end card-->          
+            </div>
+
+
+          
+
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id='<%= "myModal3"%>' tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nuevo tutor</h5>
+      </div>
+        <div class="modal-body">
+          <%= bootstrap_form_for(:tutor) do |f| %>
+            <div class="form-row">
+
+              
+              
+           
+                <div class="col-md-5">
+                  <%= f.text_field :rut,:label=>"Rut del alumno",:required => true,:onkeypress =>"return isNumberKey(event)" %>
+                </div>
+                
+                <div class="col-md-1" style="margin-top: 20px; font-size: 30px; text-align: center; margin-left: -10px; margin-right: -10px;">
+                  -
+                </div>
+              <div class="col-md-2">
+                 <%= f.text_field :dv, label: false ,:required => true,:onkeypress=>"return check(event)",:maxlength=>"1" %>
+              </div>
+
+             <div class="col-md-12">
+                  <%= f.text_field :department_id,:label=>"Id Departamento",:required => true,:onkeypress =>"return isNumberKey(event)" %>
+                </div>
+             
+              <div class="col-md-12">
+                <%= f.text_field :firstname,:label=>"Nombres",:required => true,:onkeypress=>"return isWord(event)", :style=>"text-transform:uppercase" %>
+              </div>
+              <div class="col-md-6">
+                  <%= f.text_field :lastname,:label=>"Apellido paterno",:required => true,:onkeypress=>"return isWord(event)",:style=>"text-transform:uppercase" %>
+              </div>
+              <div class="col-md-6">
+                  <%= f.text_field :lastnamema,:label=>"Apellido materno",:required => true,:onkeypress=>"return isWord(event)",:style=>"text-transform:uppercase" %>
+              </div>
+
+            
+              <div class="col-md-7">
+                <%= f.email_field :email,:label=>"Email",:required => true %>
+              
+              </div>
+              <div class="col-md-7">
+                <%= f.text_field :phone, :label=>"Teléfono",:required => true ,:onkeypress =>"return isphone(event)"%>
+              
+              </div>
+              <div class="col-md-3">
+                <%= f.number_field :level,:label=>"Nivel",:min=>1,:max=>12,:required => true %>
+              </div>
+              <div class="col-md-12">
+                <%= f.select(:careercode, options_from_collection_for_select(Career.all, :code, :name),:label=>"Carrera",:required => true) %>
+              </div>
+            
+               
+              
+
+            
+            </div>
+        
+        </div>
+         
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+         <!--  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button> -->
+         <input class="btn btn-default" name="commit" type="submit" value="Guardar">
+        </div>
+          <% end %>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+  <script>
+    function isNumberKey(evt){
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}
+    function check(e) {
+        tecla = (document.all) ? e.keyCode : e.which;
+
+        //Tecla de retroceso para borrar, siempre la permite
+        if (tecla == 8) {
+            return true;
+        }
+
+        // Patron de entrada, en este caso solo acepta numeros y letras
+        patron = /[A-Za-z0-9]/;
+        tecla_final = String.fromCharCode(tecla);
+        return patron.test(tecla_final);
+    }
+    function isWord(e) {
+        tecla = (document.all) ? e.keyCode : e.which;
+
+        //Tecla de retroceso para borrar, siempre la permite
+        if (tecla == 8) {
+            return true;
+        }
+
+        // Patron de entrada, en este caso solo acepta numeros y letras
+        patron = /[A-Za-z -]/;
+        tecla_final = String.fromCharCode(tecla);
+        return patron.test(tecla_final);
+    }
+    function isphone(e) {
+        tecla = (document.all) ? e.keyCode : e.which;
+
+        //Tecla de retroceso para borrar, siempre la permite
+        if (tecla == 8) {
+            return true;
+        }
+
+        // Patron de entrada, en este caso solo acepta numeros y letras
+        patron = /[0-9]/;
+        tecla_final = String.fromCharCode(tecla);
+        return patron.test(tecla_final);
+    }
+
+  </script>
+<style>
+  .btn-secondary{
+
+  color: white !important;
+  background-color: #a3a3a3 !important;
+  border-color: #a3a3a3 !important;
+}
+.btn-secondary:hover{
+  background-color: #7f7e7e !important;
+  border-color: #7f7e7e !important;
+ 
+}
+</style>

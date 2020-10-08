@@ -1,0 +1,788 @@
+
+    <div class="content-page">
+    
+        <!-- Start content -->
+        <div class="content">
+            
+            <div class="container-fluid">
+                    
+                        <div class="row">
+                                    <div class="col-xl-12">
+                                            <div class="breadcrumb-holder">
+                                                    <h1 class="main-title float-left">
+                                                        <% @department.each do |d|%>
+                                                             <%if d.id == current_user.department_id%>
+                                                             <%= d.name%>
+                                                             <%end%>
+                                                        <%end%>
+                                                            | Periodo <%= @period%>
+
+
+                                                        </h1>
+                                                    <ol class="breadcrumb float-right">
+            
+                                                        <!-- <li class="breadcrumb-item">Home</li>
+                                                        <li class="breadcrumb-item active">Panel de control</li> -->
+                                                        <% if current_user.coordinador? || current_user.admin?|| current_user.supervisor? %>
+                                                        <%= link_to '<i class="fa fa-file-text"></i> Generar Reporte'.html_safe, reporte_path(format:'pdf'),class: "btn btn-raised btn-success", target: "_blank"%> 
+                                                        <%end%>
+                                                    </ol>
+                                                    <div class="clearfix">  
+                                                        
+                                                    
+
+                                                        
+                                                    </div>
+                                            </div>
+                                    </div>
+                        </div>
+
+                        
+                        <!-- end row -->
+                         <% if !!flash[:noticen]%>
+                        <div class="row animated fadeInRight" id="notification">
+                            <div class="alert alert-danger pull-right " role="alert" >
+                         
+                         <%= flash[:noticen]%>
+                          
+                         
+                        </div>
+                        </div>
+                         <% end %>
+                         <% if !!flash[:noticep]%>
+                        <div class="row animated fadeInRight" id="notification">
+                            <div class="alert alert-success pull-right " role="alert" >
+                         
+                         <%= flash[:noticep]%>
+                          
+                         
+                        </div>
+                        </div>
+                         <% end %>
+                        <script type="text/javascript">
+
+                        $(document).ready(function () {
+                         
+                        window.setTimeout(function() {
+                            $("#notification").fadeTo(200, 0).slideUp(500, function(){
+                                $(this).remove(); 
+                            });
+                        }, 5000);
+                         
+                        });
+
+                        </script>
+               
+            
+                            
+
+                        <% if current_user.coordinador? || current_user.admin? || current_user.supervisor? %>
+
+                            <div class="row" style="margin-bottom: 20px;">
+                                 <%if !@career1.nil?%>
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">                      
+                                    <div class="card mb-3"   >
+                                        <div class="card-header">
+                                            <h3><i class="fas fa-exclamation-triangle"></i></i> Características Críticas Cohorte <%=@period%>
+                                                <div class="pull-right"><%= link_to 'Ver más'.html_safe, '/desertions/1', class: "btn btn-primary float-right" %>
+                                                    
+                                                </div>
+                                            </h3>
+                                                
+                                                    <% @careers.each do |c|%>
+                                                        <%if c.department_id == current_user.department_id%>
+                                                            <p> <%= c.name%></p>
+                                                         <%end%>
+                                                    <%end%>
+                                                
+
+                                        </div> 
+                                            
+                                                
+                                        <div class="card-body" >
+                                                
+                                            <table id="" class="table table-bordered table-responsive-xl table-hover display">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Ranking</th>
+                                                            <th>Característica</th>
+                                                            <th>%</th>
+                                                           
+                                                        </tr>
+                                                    </thead>                                                    
+                                                    <tbody>
+                                                        <% if @career1.empty? %>
+                                                        <tr>
+                                                        <td> - </td>
+                                                       <td> No hay características para mostrar.</td>
+                                                       <td> - </td>
+                                                         </tr>
+
+                                                        <%else%>
+                                                            <%@career1.first(5).each_with_index do |i,index|  %>
+                                                            <tr>
+                                                                <td><%=index+1%>°</td>
+                                                                    <%if i['name']=="beca de alimentación JUNAEB"%>
+                                                                    <td><%= i['tipo'] %> <%= i['name'] %></td>
+                                                                    <td data-toggle="tooltip" data-placement="top" title=" El <%= i['valor']%>% de los estudiantes con más del 75% de probabilidad de desertar, tiene esta característica."><%= i['valor']%>%</td>
+
+                                                                    <%else%>
+                                                                    <td><%= i['name'] %> <%= i['tipo'] %></td>
+                                                                    <td  data-toggle="tooltip" data-placement="top" title=" El <%= i['valor']%>% de los estudiantes con más del 75% de probabilidad de desertar, tiene esta característica."><%= i['valor']%>%</td>
+
+                                                                    <%end%>
+                                                                   
+                                                                   
+                                                                </tr>
+                                                            
+                                                            <%end%>
+                                                        <%end%>
+                                                       
+                                                        
+                                                        
+                                                        
+                                                    </tbody>
+                                            </table>
+                                                
+                                        </div> 
+
+
+                                    </div> 
+                                   
+                                    
+                                </div>   
+                                 <%end%>  
+                                    
+                                    <%if !@career2.nil?%>
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">                      
+                                    <div class="card mb-3"   >
+                                        <div class="card-header">
+                                            <h3><i class="fas fa-exclamation-triangle"></i></i> Características Críticas Cohorte <%=@period%>
+                                                <div class="pull-right"><%= link_to 'Ver más'.html_safe, '/desertions/2', class: "btn btn-primary float-right" %>
+                                                    
+                                                </div>
+                                            </h3>
+                                               <% @careers.each do |c|%>
+                                                        <%if c.department_id == current_user.department_id%>
+                                                            <p> <%= c.name%></p>
+                                                         <%end%>
+                                                    <%end%>
+
+                                        </div> 
+                                            
+                                                
+                                        <div class="card-body">
+                                                
+                                            <table id="" class="table table-bordered table-responsive-xl table-hover display">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Ranking</th>
+                                                            <th>Característica</th>
+                                                            <th>%</th>
+                                                           
+                                                        </tr>
+                                                    </thead>                                                    
+                                                    <tbody>
+                                                        <% if @career2.empty? %>
+                                                        <tr>
+                                                        <td> - </td>
+                                                       <td> No hay características para mostrar.</td>
+                                                       <td> - </td>
+                                                         </tr>
+
+                                                        <%else%>
+                                                        <%@career2.first(5).each_with_index do |i,index|  %>
+                                                            <tr>
+                                                                <td><%=index+1%>°</td>
+							
+                                                                <%if i['name']=="beca de alimentación JUNAEB"%>
+                                                                    <td><%= i['tipo'] %> <%= i['name'] %></td>
+                                                                    <td data-toggle="tooltip" data-placement="top" title=" El <%= i['valor']%>% de los estudiantes con más del 75% de probabilidad de desertar tiene esta característica."><%= i['valor']%>%</td>
+
+                                                                    <%else%>
+                                                                    <td><%= i['name'] %> <%= i['tipo'] %></td>
+                                                                    <td data-toggle="tooltip" data-placement="top" title=" El <%= i['valor']%>% de los estudiantes con más del 75% de probabilidad de desertar tiene esta característica."><%= i['valor']%>%</td>
+
+                                                                    <%end%>
+                                                               
+                                                               
+                                                            </tr>
+                                                        <%end%>
+                                                    <%end%>
+                                                       
+                                                        
+                                                    </tbody>
+                                            </table>
+                                                
+                                        </div>  
+
+                                    </div> 
+                                                 
+                                </div>
+                                <%end%> 
+                                 <%if !@career3.nil?%>
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">                      
+                                    <div class="card mb-3"   >
+                                        <div class="card-header">
+                                            <h3><i class="fas fa-exclamation-triangle"></i></i> Características Críticas Cohorte <%=@period%>
+                                                <div class="pull-right"><%= link_to 'Ver más'.html_safe, '/desertions/3', class: "btn btn-primary float-right" %>
+                                                    
+                                                </div>
+                                            </h3>
+                                                <% @careers.each do |c|%>
+                                                        <%if c.department_id == current_user.department_id%>
+                                                            <p> <%= c.name%></p>
+                                                         <%end%>
+                                                    <%end%>
+
+                                        </div> 
+                                            
+                                                
+                                        <div class="card-body">
+                                                
+                                            <table id="" class="table table-bordered table-responsive-xl table-hover display">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Ranking</th>
+                                                            <th>Característica</th>
+                                                            <th>%</th>
+                                                           
+                                                        </tr>
+                                                    </thead>                                                    
+                                                    <tbody>
+                                                        <% if @career3.empty? %>
+                                                        <tr>
+                                                        <td> - </td>
+                                                       <td> No hay características para mostrar.</td>
+                                                       <td> - </td>
+                                                         </tr>
+
+                                                        <%else%>
+                                                            <%@career3.first(5).each_with_index do |i,index|  %>
+                                                            <tr>
+                                                                <td><%=index+1%>°</td>
+                                                                    <%if i['name']=="beca de alimentación JUNAEB"%>
+                                                                    <td><%= i['tipo'] %> <%= i['name'] %></td>
+                                                                    <td data-toggle="tooltip" data-placement="top" title=" El <%= i['valor']%>% de los estudiantes con más del 75% de probabilidad de desertar, tiene esta característica."><%= i['valor']%>%</td>
+
+                                                                    <%else%>
+                                                                    <td><%= i['name'] %> <%= i['tipo'] %></td>
+                                                                    <td  data-toggle="tooltip" data-placement="top" title=" El <%= i['valor']%>% de los estudiantes con más del 75% de probabilidad de desertar, tiene esta característica."><%= i['valor']%>%</td>
+
+                                                                    <%end%>
+                                                                   
+                                                                   
+                                                                </tr>
+                                                            
+                                                            <%end%>
+                                                        <%end%>
+                                                       
+                                                        
+                                                        
+                                                        
+                                                    </tbody>
+                                            </table>
+                                                
+                                        </div> 
+
+
+                                    </div> 
+                                    
+                                    
+                                </div>  
+                                <%end%>   
+                                    
+                                    <%if !@career4.nil?%>
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">                      
+                                    <div class="card mb-3"   >
+                                        <div class="card-header">
+                                            <h3><i class="fas fa-exclamation-triangle"></i></i> Características Críticas Cohorte <%=@period%>
+                                                <div class="pull-right"><%= link_to 'Ver más'.html_safe, '/desertions/4', class: "btn btn-primary float-right" %>
+                                                    
+                                                </div>
+                                            </h3>
+                                                <% @careers.each do |c|%>
+                                                        <%if c.department_id == current_user.department_id%>
+                                                            <p> <%= c.name%></p>
+                                                         <%end%>
+                                                    <%end%>
+
+                                        </div> 
+                                            
+                                                
+                                        <div class="card-body">
+                                                
+                                            <table id="" class="table table-bordered table-responsive-xl table-hover display">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Ranking</th>
+                                                            <th>Característica</th>
+                                                            <th>%</th>
+                                                           
+                                                        </tr>
+                                                    </thead>                                                    
+                                                    <tbody>
+                                                        <% if @career4.empty? %>
+                                                        <tr>
+                                                        <td> - </td>
+                                                       <td> No hay características para mostrar.</td>
+                                                       <td> - </td>
+                                                         </tr>
+
+                                                        <%else%>
+                                                        <%@career4.first(5).each_with_index do |i,index|  %>
+                                                            <tr>
+                                                                <td><%=index+1%>°</td>
+                            
+                                                                <%if i['name']=="beca de alimentación JUNAEB"%>
+                                                                    <td><%= i['tipo'] %> <%= i['name'] %></td>
+                                                                    <td data-toggle="tooltip" data-placement="top" title=" El <%= i['valor']%>% de los estudiantes con más del 75% de probabilidad de desertar tiene esta característica."><%= i['valor']%>%</td>
+
+                                                                    <%else%>
+                                                                    <td><%= i['name'] %> <%= i['tipo'] %></td>
+                                                                    <td data-toggle="tooltip" data-placement="top" title=" El <%= i['valor']%>% de los estudiantes con más del 75% de probabilidad de desertar tiene esta característica."><%= i['valor']%>%</td>
+
+                                                                    <%end%>
+                                                               
+                                                               
+                                                            </tr>
+                                                        <%end%>
+                                                    <%end%>
+                                                       
+                                                        
+                                                    </tbody>
+                                            </table>
+                                                
+                                        </div>  
+
+                                    </div> 
+                                               
+                                </div>
+                                <%end%>   
+
+
+
+
+
+                            </div> <!-- end row -->
+                        <%end%>
+
+                    
+                          <div class="row" style="margin-bottom: 20px;"> <!-- Graficos row -->
+                           
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-bottom: 20px;"><!-- Grafico 2-->                        
+                                        <div class="card mb-3" style="height: 100%;">
+                                            <div class="card-header">
+                                                <h3><i class="fa fa-bar-chart-o"></i> Tutorías Periodo <%= @period%></h3>
+                                                Asistencia a tutorías
+                                            </div>
+                                                
+                                            <div class="card-body" style="width: auto;height:400px">
+                                                <canvas id="linChart"></canvas>
+                                            </div>
+                                            <div class="card-footer small text-muted">Actualizado: <%= Time.now.strftime("%d-%m-%Y %H:%M:%S") %></div>
+                                        </div>           
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-9"><!-- Grafico 1-->                        
+                                        <div class="card mb-3" style="height: 100%;">
+                                            <div class="card-header">
+                                                <h3><i class="fa fa-bar-chart-o"></i> Tutorías Periodo <%= @period%></h3>
+                                                Cantidad de tutorías por asignatura
+                                            </div>
+                                                
+                                            <div class="card-body" style="width: auto;height:400px">
+                                                <canvas id="barrChart" ></canvas>
+                                            </div>
+                                           
+                                            <div class="card-footer small text-muted">Actualizado: <%= Time.now.strftime("%d-%m-%Y %H:%M:%S") %></div>
+                                        </div>           
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3"><!-- Grafico 5-->                        
+                                        <div class="card mb-3" style="height: 100%;">
+                                            <div class="card-header">
+                                                <h3><i class="fa fa-bar-chart-o"></i> Tutorías <%= @period%></h3>
+                                                Modalidad de tutoría
+                                            </div>
+                                                
+                                            <div class="card-body">
+                                                <canvas id="modalidadChart"></canvas>
+                                            </div>
+                                            <div class="card-footer small text-muted">Actualizado: <%= Time.now.strftime("%d-%m-%Y %H:%M:%S") %></div>
+                                        </div>           
+                                    </div>
+                                
+                                
+
+                                    
+                                </div>
+                   
+                     
+                            
+                            
+                            
+
+
+
+            </div>
+            <!-- END container-fluid -->
+
+        </div>
+        <!-- END content -->
+
+    </div>
+    <!-- END content-page -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+        <script>
+        $(document).ready(function() {
+        var ctx2 = document.getElementById("barrChart").getContext('2d');
+        var barrChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+                datasets: [{
+                    data: <%= raw @numTutorials.map.to_json %>,
+                    backgroundColor: ['#3769CC','#39CEDB','#FF8180','#7BCC2D','#E84D3F','#FF7045','#FFD937','#6BD14B'],
+                    
+                }],
+                labels: <%= raw @nameSubjects.map.to_json %>
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio:false,
+                legend: { display: false },
+                scales: {
+                    yAxes: [{
+                        display: true,
+                        ticks: {
+                            suggestedMin: 0,
+                            suggestedMax: 20
+                            
+                            
+                        }
+                    }]
+                },
+
+               
+                
+            }
+     
+    });
+       
+
+        } );
+
+        
+         
+            
+        
+
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+    <script>
+       
+        $(document).ready(function() {
+        var ctx22 = document.getElementById("modalidadChart").getContext('2d');
+        var modalidadChart = new Chart(ctx22, {
+        type: 'pie',
+        data: {
+                datasets: [{
+                    data: <%= raw @modalidad.map.to_json %>,
+                    backgroundColor: [
+                        'rgb(135, 18, 150)',
+                        'rgb(36, 191, 178)'
+                        
+                    ],
+                    
+                }],
+                labels: ['Trabajo autónomo','Trabajo dirigido']
+            },
+            options: {
+               
+                responsive: true,
+                
+                 tooltips: {
+                  callbacks: {
+                    label: function(tooltipItem, data) {
+                            var indice = tooltipItem.index;                 
+            return  data.labels[indice] +': '+data.datasets[0].data[indice] + '%';
+                    }
+                                }
+                           }
+               
+                
+            }
+     
+    });
+           
+        } );  
+
+      
+
+       
+    </script>
+
+
+
+
+
+    <script>
+        $(document).ready(function() {
+        var ctx2 = document.getElementById("linChart").getContext('2d');
+        
+        var linChart = new Chart(ctx2, {
+        type: 'line',
+
+        data: {
+              labels: <%= raw @dateTutorials.map.to_json %>,
+              labels2:<%= raw @nameSubjectsAsis.map.to_json %>,
+          datasets: [{
+             label: 'Asistencia',
+             data: <%= raw @numAsistencia.map.to_json %>,
+             borderColor: 'rgb(237, 125, 21)',
+             fill: false
+          }]
+       },
+            options: {
+                responsive: true,
+                maintainAspectRatio:false,
+                 scales: {
+                    yAxes: [{
+                        display: true,
+                        ticks: {
+                            min: 0,
+                            
+                        }
+                    }]
+                },
+                tooltips: {
+      callbacks: {
+        label: function(tooltipItem, data) {
+               var label = data.labels2[tooltipItem.index];
+                return  label+ '   ' + tooltipItem.yLabel+ ' Estudiantes presentes';
+        }
+                    }
+                }
+
+            }
+     
+    });
+           
+        } );        
+    </script>
+
+    <script>
+        $(document).ready(function() {
+        var ctx2 = document.getElementById("asisChart").getContext('2d');
+         var colores = ['#3769CC','#39CEDB','#FF8180','#7BCC2D','#E84D3F','#FF7045','#FFD937','#6BD14B']
+        var asisChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+                datasets: [{
+                    data: <%= raw @asistencia.map.to_json %>,
+                    backgroundColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
+                        
+                    ],
+                    
+                }],
+                labels: <%= raw @nameSubjects.map.to_json %>
+            },
+            options: {
+                responsive: true,
+                tooltips: {
+                  callbacks: {
+                    label: function(tooltipItem, data) {
+                            var indice = tooltipItem.index;                 
+            return  data.datasets[0].data[indice] + '%';
+                    }
+                                }
+                           },
+                legend: { display: false },
+                scales: {
+                    yAxes: [{
+                        display: true,
+                        ticks: {
+                            min: 0,
+                            max: 100
+                            
+                            
+                        }
+                    }]
+                },
+
+               
+                
+            }
+     
+    });
+       
+
+        } );
+
+        
+         
+            
+        
+
+    </script>
+
+    <script>
+        var ctx = document.getElementById("myChart4").getContext('2d');
+var myChart4 = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: <%= raw @datetutorial.map.to_json %>,
+        datasets: [],
+    },
+options: {
+    tooltips: {
+      displayColors: true,
+      callbacks:{
+        mode: 'x',
+      },
+    },
+    scales: {
+      xAxes: [{
+        stacked: true,
+        gridLines: {
+          display: false,
+        }
+      }],
+      yAxes: [{
+        stacked: true,
+        ticks: {
+          beginAtZero: true,
+        },
+        type: 'linear',
+      }]
+    },
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: { position: 'bottom' },
+    }
+});
+var asistencia= [0,1,1,1,0,0,1,0,0]
+var params=<%= raw @numasistencias.map.to_json%>
+var colores = ['#3769CC','#39CEDB','#FF8180','#7BCC2D','#E84D3F','#FF7045','#FFD937','#6BD14B']
+var asignaturas=<%= raw @nameSubjects.map.to_json %>
+var number=<%= raw @datetutorial.map.to_json %>
+var fff =<%= raw @tutorialsasis.map.to_json %>
+var count=0
+console.log(fff);
+        for(a in asignaturas){
+            myChart4.data.datasets.push({
+                  label: asignaturas[a],
+                  backgroundColor: colores[count],
+                  data: [params[count],params[count+asignaturas.length],params[count+asignaturas.length*2],params[count+asignaturas.length*3]]
+                });
+            count=count+1
+        }
+        myChart4.update();
+            
+    </script>
+    <script>
+    $('#pause').on('click', function(e){
+
+        
+    });
+    </script>
+
+
+    <script>
+        $(document).ready(function() {
+        
+
+        var ctx2 = document.getElementById("notasChart").getContext('2d');
+        var notasChart = new Chart(ctx2, {
+        type: 'line',
+
+        data: {
+              labels: <%= raw @nameSubjects.map.to_json %>,
+             
+          datasets: [{
+             label: 'Promedio',
+             data: <%= raw @notas.map.to_json %>,
+             borderColor: 'rgb(13, 165, 48)',
+             fill: false
+          }]
+       },
+            options: {
+                responsive: true,
+                 scales: {
+                    yAxes: [{
+                        display: true,
+                        ticks: {
+                            min: 1.0,
+                            max: 7.0
+                            
+                        }
+                    }]
+                },
+              
+
+            }
+     
+    });
+           
+        } );        
+    </script>
+
+
+
+    <script type="text/javascript">
+      $('#pause').on('click', function(e){
+        e.preventDefault();
+        
+        // ajax request 
+        $.ajax({
+          url: "/report",
+          type: "GET",
+          data : {
+            id: 1
+          },
+          dataType: "script",
+        });    
+      });
+    </script>
+
+    
+
+
+
+    
+
+
+<!-- END main --><style>
+  a.btn.btn-primary {
+  margin-top: 8px;
+  color: white !important;
+ 
+}
+btn-warning,.btn-danger:visited, .btn-success {
+   color:white !important;
+}
+
+canvas{
+    background-color:  white !important;
+}
+
+</style>
+<script>
+    $(function () {
+  $('[data-toggle="popover"]').popover()
+})
+
+$(document).ready(function() {
+  
+
+  $('#popover').popover({
+    placement: 'bottom',
+    content: '<ul> <li type="disc">Los archivos deben tener extensión .csv </li> <li type="disc">La probabilidad de deserción, debe estar expresada con un punto como delimitador de decimales (ej: 0.73)</li><li type="disc">Deben estar presentes los encabezados "id";"rut_cifrado";"pred_des"</li> <li type="disc">Un ejemplo de como se debe ver el archivo a subir es el siguiente: </li> </ul>',
+    html: true
+  });
+});
+</script>

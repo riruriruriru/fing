@@ -1,0 +1,91 @@
+<div class="content-page">
+  
+    <!-- Start content -->
+        <div class="content">
+            
+      <div class="container-fluid">
+          
+            <div class="row">
+        <div class="col-xl-12">
+              <div class="breadcrumb-holder">
+                
+                <%= link_to '<i class="fas fa-arrow-left"></i>'.html_safe, :back , class: "btn btn-secondary float-left" %>
+                      <h1 class="main-title float-left">Características Críticas de Deserción Cohorte <%=@period%>  <br><b><%=@car%></b>  <%=@anio%></h1> 
+                    
+                      <ol class="breadcrumb float-right">
+                      
+                      </ol>
+                      <div class="clearfix"></div>
+              </div>
+              </div>
+
+
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">                      
+                                        <div class="card mb-3">
+                                            
+                                                
+                                            <div class="card-body">
+                                                
+                                                <table id="" class="table table-bordered table-responsive-xl table-hover display">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Ranking</th>
+                                                            <th>Característica</th>
+                                                            <th>%</th>
+                                                           
+                                                        </tr>
+                                                    </thead>                                                    
+                                                    <tbody>
+                                                       <% if  @career.empty? %>
+                                                        <tr>
+                                                       <td> - </td>
+                                                       <td> No hay características para mostrar.</td>
+                                                       <td> - </td>
+                                                         </tr>
+
+                                                        <%else%>
+                                                      <% @career.each_with_index do |i,index|%>
+                                                        <tr>
+                                                          <td><%= index+1 %>°</td>
+                                                             <%if i['name']=="beca de alimentación JUNAEB"%>
+                                                                    <td><%= i['tipo'] %> <%= i['name'] %></td>
+                                                                    <td data-toggle="tooltip" data-placement="top" title=" El <%= i['valor']%>% de los estudiantes con más del 75% de probabilidad de desertar, tiene esta característica."><%= i['valor']%>%</td>
+
+                                                                    <%else%>
+                                                                    <td><%= i['name'] %> <%= i['tipo'] %></td>
+                                                                    <td data-toggle="tooltip" data-placement="top" title=" El <%= i['valor']%>% de los estudiantes con más del 75% de probabilidad de desertar, tiene esta característica."><%= i['valor']%>%</td>
+
+                                                                    <%end%>
+                                                            
+                                                        </tr>
+                                                      <%end%>
+                                                    <%end%>
+                                                        
+                                                        
+                                                    </tbody>
+                                                </table>
+                                                
+                                            </div>                                                      
+                                        </div>     
+            
+            </div>
+            
+            </div>
+      </div>
+    </div>
+</div>
+<style>
+  .btn-secondary{
+  margin-top: 8px;
+  color: white !important;
+  background-color: #a3a3a3 !important;
+  border-color: #a3a3a3 !important;
+}
+.btn-secondary:hover{
+  background-color: #7f7e7e !important;
+  border-color: #7f7e7e !important;
+ 
+}
+</style>
+
+

@@ -1,0 +1,378 @@
+<%= csrf_meta_tags %>
+<div class="content-page">
+  
+    <!-- Start content -->
+  <div class="content">
+            
+      <div class="container-fluid">
+          
+            <div class="row">
+             <div class="col-xl-12">
+              <div class="breadcrumb-holder">
+                 <%= link_to '<i class="fas fa-arrow-left"></i> '.html_safe, :back , class: "btn btn-secondary float-left" %>
+                      <h1 class="main-title float-left">Tutorías periodo <%= @period%> <a id="popover" tabindex="0" data-trigger="focus" class="btn" style="font-size: 18px;" rel="popover" data-content="" title="Tutorías"><i class="fas fa-info-circle"></i></a></h1>
+                      <ol class="breadcrumb float-right">
+                        
+                      </ol>
+                      <div class="clearfix"></div>
+              </div>
+              </div>
+             </div>
+                <% if !!flash[:noticen]%>
+                        <div class="row animated fadeInRight" id="notification">
+                            <div class="alert alert-danger pull-right " role="alert" >
+                         
+                         <%= flash[:noticen]%>
+                          
+                         
+                        </div>
+                        </div>
+                <% end %>
+                <% if !!flash[:noticep]%>
+                        <div class="row animated fadeInRight" id="notification">
+                            <div class="alert alert-success pull-right " role="alert" >
+                         
+                         <%= flash[:noticep]%>
+                          
+                         
+                        </div>
+                        </div>
+                        
+                         <% end %>
+                       
+                         <script type="text/javascript">
+
+                        $(document).ready(function () {
+                         
+                        window.setTimeout(function() {
+                            $("#notification").fadeTo(200, 0).slideUp(500, function(){
+                                $(this).remove(); 
+                            });
+                        }, 5000);
+                         
+                        });
+
+                        </script>
+                      
+              <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">           
+              <div class="card mb-3">
+                <div class="card-header row">
+                  <h3 class="col-md-10"></h3>
+                  
+                  
+                   <%= link_to '<i class="fas fa-plus"></i> Nueva tutoría'.html_safe,  '#', 'data-target' => "#myModal3", 'data-toggle' => 'modal', class: "btn btn-success" %>
+                  
+                </div>
+                  
+                <div class="card-body">
+
+                  <div class="table-responsive">
+                  <table id="tutorialstable" class="table table-bordered table-hover display">
+                    <thead>
+                      <tr class="text-center">
+                 
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Asignatura</th>
+                   
+                    <th scope="col">Asistencia Estudiantes</th>
+                    <th scope="col">Registro</th>
+                    <% if current_user.admin? or current_user.coordinador? %>
+                    <th scope="col">Asistencia Tutores</th>
+                     
+                    <th scope="col"><i class="fas fa-cogs"></i></th>
+                     <% end %>
+                      </tr>
+                    </thead>                    
+                    <tbody>
+                      <% @tutorials.each_with_index do |tutorial,i| %>
+                      <tr class="text-center">          
+                  
+                      <td> <%=tutorial.dates.strftime("%d-%m-%Y")%> </td>
+                      <% @subjects.each do |subs| %> 
+                      <% if subs.id==tutorial.subject %>
+                           <td> <%=subs.name%></td>
+                      <% end %>
+                      <%end%> 
+                       
+                      
+                      <td class="text-center"><button  onclick="location.href='/student_tutorials/'+<%=tutorial.id%>" type="button" class="btn btn-info" ><i class="fas fa-file-alt"></i> Ver Asistencia </button>
+                      </td>
+                         <td><button  onclick="location.href='/tutorials/'+<%=tutorial.id%>" type="button" class="btn btn-primary" ><i class="fas fa-file-alt"></i> Registro </button>  </td>        
+                        <% if current_user.admin? or current_user.coordinador? %>
+                        <td class="text-center"><button  onclick="location.href='/tutor_tutorials/'+<%=tutorial.id%>" type="button" class="btn btn-primary" ><i class="fas fa-file-alt"></i> Ver Asistencia </button>
+                      </td>
+
+                      <td class="text-center">
+                       <%= link_to '<i class="fas fa-edit"></i> Editar'.html_safe,  '#', 'data-target' => "#myModal_#{tutorial.id}", 'data-toggle' => 'modal', class: "btn btn-warning" %>
+                       <!-- modal editar tutoria -->
+                            <div class="modal fade" id='<%= "myModal_#{tutorial.id}" %>' tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Editar Tutoría</h5>
+                                </div>
+                                  <div class="modal-body">
+                                    <%= bootstrap_form_for(tutorial) do |f| %>
+                                      <div class="form-row">
+
+                                        <div class="field col-md-7">
+                                        
+                            
+                                          <%= f.select(:subject, options_from_collection_for_select(Subject.all, :id, :name),:label=>"Asignatura") %>
+
+
+                                        </div>
+                                        <div class="field col-md-5">
+                                         
+                                          <%= f.date_field :dates , label: "Fecha", :required => true %>
+                                        </div>
+                                        <div class="field col-md-12">
+                                        
+                                        
+                                        </div>
+                                      
+                                      </div>
+                                  
+                                  </div>
+                                   
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                   <!--  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button> -->
+                                   <input class="btn btn-default" name="commit" type="submit" value="Guardar">
+                                  </div>
+                                    <% end %>
+                                </div><!-- /.modal-content -->
+                              </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+
+                        <%= link_to @tutorials.find(tutorial.id), :method => 'delete', data: { confirm: '¿Está seguro de eliminar esta tutoría?' }, class: "btn btn-danger" do %>
+                        <i class="fas fa-trash"></i> Borrar
+                        <% end %>
+
+                      </td>
+                  <% end %>
+
+                     </tr>
+                    
+                     <%end%>
+                    </tbody>
+                  </table>
+                  </div>
+                  
+                </div>                            
+              </div><!-- end card-->          
+            </div>
+            
+            </div>
+      </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id='<%= "myModal3"%>' tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nueva Tutoría</h5>
+      </div>
+        <div class="modal-body" id="myform">
+          <%= bootstrap_form_for(:tutorial,:html => {:id => "myForm"} ) do |f| %>
+          <%if Subject.all.blank?%>
+            No hay asignaturas añadidas, no se puede crear una tutoría.
+            <%else%>
+            <%if Tutor.where(status:true).blank?%>
+            No hay tutores registrados, no se puede crear una tutoría.
+            <%else%>
+                <%if Student.where(status:true).where(entry: @period).where(careercode: @codes[0])
+    .or(Student.where(status:true).where(entry: @period).where(careercode: @codes[1]))
+    .or(Student.where(status:true).where(entry: @period).where(careercode: @codes[2]))
+    .or(Student.where(status:true).where(entry: @period).where(careercode: @codes[3])).blank?%>
+                  No hay estudiantes registrados, no se puede crear una tutoría.
+                <%else%>
+                  <div class="form-row">
+
+                        <div class="field col-md-7">            
+                        <%= f.select(:subject, options_from_collection_for_select(Subject.all, :id, :name),:label=>"Asignatura",:required => true) %>
+                        </div>
+                        <div class="field col-md-5">
+                         
+                          <%= f.date_field :dates, :value => Time.now.strftime('%Y-%m-%d'), :label =>'Fecha', :required => true , :id=>'date'%>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div class="error"></div>
+                          <%= f.collection_check_boxes :tutores, Tutor.where(status:true), :id, :name %>
+                        
+                           
+                        </div>
+                         <div class="col-md-5">
+                          <%= f.select(:type_id, options_from_collection_for_select(Type.all, :id, :name ),:label=>"Modalidad",:required => true) %> 
+                         
+                        </div>
+                        <a id="popover_modalidad" tabindex="0" data-trigger="focus" class="btn col-md-1" style="font-size: 18px; margin-top: 30px;" rel="popover" data-content="" title="Modalidad"><i class="fas fa-info-circle"></i></a>
+<script>
+
+
+     $(document).ready(function () {
+          
+      $(function () {
+              $("#date")
+                  .popover({ title: 'Fecha de la tutoría', content: "Si el año de la tutoría a crear, es diferente a <%=@period%>, no será mostrada en la lista hasta que se cambie el periodo de la plataforma" })
+                  .blur(function () {
+                      $(this).popover('hide');
+                  });
+          });
+               
+      });
+
+                  
+</script>
+
+<script>
+function validateCheckbox(){
+  $("form").submit(function(){
+
+var form = document.querySelector("#myForm");
+var error = form.querySelector(".error");
+
+   if($(this).find("input:checked").length == 0){
+     //No checkbox checked
+     console.log('no hay tutores seleccionados');
+     error.innerHTML = '<label style="font-size: 14px; color: red;">Debe seleccionar al menos un tutor</label>';
+     return false;
+   }else{
+    error.remove();
+
+   }
+});
+}
+</script>               
+
+                
+
+              
+                   </div>
+                <%end%>
+            <%end%>
+        
+        </div>
+         
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+         <!--  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button> -->
+          <%if Tutor.where(status:true).blank? || Student.where(status:true).blank?%>
+         <input class="btn btn-default" name="commit" type="submit" value="Guardar" disabled="true">
+         <% else %>
+          <input class="btn btn-default" name="commit" type="submit" value="Guardar" onclick="validateCheckbox()">
+         <% end %>
+        </div>
+          <% end %>
+           <% end %>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+
+
+
+<style>
+  .btn-warning,.btn-danger:visited, .btn-success {
+   color:white !important;
+}
+#popover,#popover_modalidad:hover{
+  background-color: none !important;
+  color: #af5d00 !important;
+
+}
+a#popover,#popover_modalidad:hover{
+  background-color: white !important;
+
+}
+
+#popover,#popover_modalidad{
+  color: #DD7900 !important;
+}
+label{
+  font-size: 16px;
+  text-align: left;
+  display: inherit;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+.btn-secondary{
+
+  color: white !important;
+  background-color: #a3a3a3 !important;
+  border-color: #a3a3a3 !important;
+}
+.btn-secondary:hover{
+  background-color: #7f7e7e !important;
+  border-color: #7f7e7e !important;}
+ 
+
+
+</style>
+  <script>
+  $(function () {
+  $('[data-toggle="popover"]').popover()
+})
+
+$(document).ready(function() {
+
+  $('#popover').popover({
+    placement: 'bottom',
+    content: 'Las tutorías realizadas o por realizar durante <%=@period%> son las que se listan. <br> Si desea listar tutorías de un año diferente, pida a un administrador cambiar el periodo de la plataforma.',
+    html: true
+  });
+  $('#popover_modalidad').popover({
+    placement: 'right',
+    content: '<b>Trabajo autónomo:</b> Los estudiantes trabajarán de forma individual o grupal con la intervención de un tutor solo para consultas. <br> <b>Trabajo dirigido:</b> El o los tutores a cargo dictarán los contenidos y guiarán la tutoría.',
+    html: true
+  });
+});
+</script>
+
+    <script>
+        $(document).ready(function() {
+
+            // data-tables
+            $('#tutorialstable').DataTable({
+              "bSort": false,
+              "language": {
+                        "sProcessing":     "Procesando...",
+                        "sLengthMenu":     "Mostrar _MENU_ registros",
+                        "sZeroRecords":    "No se encontraron resultados",
+                        "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                        "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix":    "",
+                        "sSearch":         "Buscar:",
+                        "sUrl":            "",
+                        "sInfoThousands":  ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst":    "Primero",
+                            "sLast":     "Último",
+                            "sNext":     "Siguiente",
+                            "sPrevious": "Anterior"
+                        },
+                        "oAria": {
+                            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                                  }
+                       }
+            });
+
+                    
+            // counter-up
+            $('.counter').counterUp({
+                delay: 10,
+                time: 600
+            });
+        } );        
+    </script>
+

@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  times: 2019-09-09
+  comment: MyText
+  statusannotation: one
+  typeannotation: one
+  user: one
+  user: one
+
+two:
+  times: 2019-09-09
+  comment: MyText
+  statusannotation: two
+  typeannotation: two
+  user: two
+  user: two

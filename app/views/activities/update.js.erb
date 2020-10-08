@@ -1,0 +1,7 @@
+$('.calendar').fullCalendar('removeactivitys', [<%= @activity.id %>]);
+$('.calendar').fullCalendar(
+  'renderactivity', 
+  $.parseJSON("<%=j render(@activity, format: :json).html_safe %>"), 
+  true
+);
+$('.modal').modal('hide');

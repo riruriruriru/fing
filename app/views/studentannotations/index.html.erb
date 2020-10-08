@@ -1,0 +1,183 @@
+<div class="content-page">
+  
+    <!-- Start content -->
+        <div class="content">
+            
+      <div class="container-fluid">
+
+          
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="breadcrumb-holder">
+                        <h1 class="main-title float-left"></h1>
+                        <ol class="breadcrumb float-right">
+                         
+                        </ol>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+
+              
+              
+            <div class="row">
+
+              
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"> 
+
+                    <div class="card mb-3">
+                      <div class="card-header">
+                        <h3> Alertas con derivación a <%= @name%> </h3>                
+                      </div>
+                        
+                      <div class="card-body">
+                        
+                        
+                        
+                          
+
+                         <table id="example1" class="table table-bordered table-hover display">
+                          <thead>
+                            <tr class="text-center">
+                              <th scope="col" style="width: 10%;">Fecha</th>
+                              <th scope="col">Alumno</th>
+                              <th scope="col" class="text-left">Comentario</th>
+                              <th scope="col">Estado</th>
+                              <th scope="col">Autor</th>
+                              <th scope="col">Ver perfil</th>
+                              <th></th>
+                              <th scope="col"> </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          <% @studentannotations.each do |ann| %>
+                            <% if current_user.coordinador? %>
+                                <% if ann.derivation == current_user.id%>
+                                  <tr>
+                                    <th class="text-center"><%= ann.times.strftime("%d-%m-%Y")%></th>
+                                     
+                                    <td class="text-center" style="width: 10%;"><%= ann.student.name%> </td>
+                                      
+                                    <td><%= ann.comment%></td>
+                                    
+
+                                    <td class="text-center" ><%= ann.statusannotation.name%></td>
+                                    <td class="text-center"><%= ann.user.name%></td>
+                                    <td>
+                                         <center>
+                                           <%= link_to '<i class="fas fa-search-plus"></i>'.html_safe,  '/students/'+ann.student_id.to_s, class: "btn btn-success", 
+                                              'data-target' =>"tooltip", 'data-placement'=>"bottom",'title'=>"Ver perfil" %>
+                                         </center>
+                                       </td>
+                                     <td >
+                                    
+                                     <center >
+                                        <%= form_for ann, :method => :PUT do |f|%>
+                                        <%= f.hidden_field :statusannotation_id, value: 4 %>
+                                        <%= button_tag(type: "submit", class: "btn btn-info") do %>
+                                            <i class="fas fa-external-link-alt"></i> En derivación
+                                        <% end %>
+                                        <% end %>
+                                     </center>
+                                       </td>
+                                       
+                                       <td >
+                                      <center >
+                                        <%= form_for ann, :method => :PUT do |f|%>
+                                        <%= f.hidden_field :statusannotation_id, value: 3 %>
+                                        <%= button_tag(type: "submit", class: "btn btn-danger", data: { confirm: '¿Está seguro de cerrar esta alerta?' }) do %>
+                                            <i class="fas fa-external-link-alt"></i> Cerrar
+                                        <% end %>
+                                        <% end %>
+                                      </center>
+                                      
+
+                                      
+                                  
+                                       
+                                    
+                                     </td>
+                                   
+                                  </tr>
+                               <% end %>
+                            <% end %>
+                            <tr>
+                           <% end %>
+                             
+                           
+                          </tbody>
+                        </table>            
+                        
+                                        
+                        
+                </div>  
+                <!-- end card-body -->                
+                  
+              </div>
+              <!-- end card -->         
+
+            </div>
+            <!-- end col -->  
+                              
+          </div>
+          <!-- end row -->  
+
+
+            </div>
+      <!-- END container-fluid -->
+
+    </div>
+    <!-- END content -->
+
+    </div>
+
+
+
+
+
+<style>
+  .btn-secondary{
+
+  color: white !important;
+  background-color: #a3a3a3 !important;
+  border-color: #a3a3a3 !important;
+}
+.btn-secondary:hover{
+  background-color: #7f7e7e !important;
+  border-color: #7f7e7e !important;
+ 
+}
+  .btn-warning,.btn-danger:visited, .btn-success {
+   color:white !important;}
+
+.imgRedonda {
+    width:300px;
+    height:300px;
+    border-radius:150px;
+}
+h3{
+  font-size: 16px;
+}
+.historia { 
+font-family: sans-serif; 
+color: #ffffff; 
+padding-left: 7px;
+padding-right: 7px;
+text-align: center;
+background: #EEA616;
+border-radius: 6px;
+text-shadow: 1px 1px 2px #a87612;}
+
+.alerta { 
+font-family: sans-serif; 
+color: #ffffff; 
+padding-left: 7px;
+padding-right: 7px;
+text-align: center;
+background:#F53821;
+border-radius: 6px;
+text-shadow: 1px 1px 2px #c93c2c;}
+
+</style>
+

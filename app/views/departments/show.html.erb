@@ -1,0 +1,109 @@
+<p id="notice"><%= notice %></p>
+
+<div class="content-page">
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="breadcrumb-holder">
+            <%= link_to '<i class="fas fa-arrow-left"></i> '.html_safe, :back , class: "btn btn-secondary float-left" %>
+            <h1 class="main-title float-left">Departamento o Escuela</h1>
+              <ol class="breadcrumb float-right"></ol>
+              <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">	
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="form-group">
+                <p>
+                  <strong>Nombre:</strong>
+                  <%= @department.name %>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>   
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">	
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="form-group">
+                <h3>Carreras</h3>
+                <% @department.careers.each do |career| %>
+                  <%= career.name%>
+                  <%= career.code%>
+                <%end%>
+              </div>
+            </div>
+          </div>
+        </div>   
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">	
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="form-group">
+                <h3>Estudiantes del departamento</h3>
+                <% @department.students.each do |student| %>
+                  <%= student.name%>
+                  <%= student.rut%>
+                <%end%>
+              </div>
+            </div>
+          </div>
+        </div>   
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">	
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="form-group">
+                <h3>Tutores del departamento</h3>
+                <% @department.tutors.each do |tutor| %>
+                  <%= tutor.name%>
+                  
+                <%end%>
+              </div>
+            </div>
+          </div>
+        </div>   
+      </div>
+    
+    </div>
+
+    </div>
+  </div>
+
+
+
+
+
+<style>
+  .btn-secondary{
+  margin-top: 8px;
+  color: white !important;
+  background-color: #a3a3a3 !important;
+  border-color: #a3a3a3 !important;
+}
+.btn-secondary:hover{
+  background-color: #7f7e7e !important;
+  border-color: #7f7e7e !important;
+ 
+}
+.imgRedonda {
+    width:300px;
+    height:300px;
+    border-radius:150px;
+}
+h3{
+	font-size: 16px;
+}
+</style>

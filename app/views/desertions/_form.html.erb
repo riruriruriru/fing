@@ -1,0 +1,17 @@
+<%= form_with(model: desertion, local: true) do |form| %>
+  <% if desertion.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(desertion.errors.count, "error") %> prohibited this desertion from being saved:</h2>
+
+      <ul>
+      <% desertion.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

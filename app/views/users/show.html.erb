@@ -1,0 +1,325 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" rel="stylesheet"/>
+
+    <div class="content-page">
+	
+		<!-- Start content -->
+        <div class="content">
+            
+			<div class="container-fluid">
+
+				
+				<div class="row">
+					<div class="col-xl-12">
+						<div class="breadcrumb-holder">
+							<h1 class="main-title float-left">Mi perfil</h1>
+							<ol class="breadcrumb float-right">
+							
+							</ol>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+				</div>
+				<% if !!flash[:noticen]%>
+                        <div class="row animated fadeInRight" id="notification">
+                            <div class="alert alert-danger pull-right " role="alert" >
+                         
+                         <%= flash[:noticen]%>
+                          
+                         
+                        </div>
+                        </div>
+                <% end %>
+                <% if !!flash[:noticep]%>
+                        <div class="row animated fadeInRight" id="notification">
+                            <div class="alert alert-success pull-right " role="alert" >
+                         
+                         <%= flash[:noticep]%>
+                          
+                         
+                        </div>
+                        </div>
+                        
+                         <% end %>
+                       
+                         <script type="text/javascript">
+
+                        $(document).ready(function () {
+                         
+                        window.setTimeout(function() {
+                            $("#notification").fadeTo(200, 0).slideUp(500, function(){
+                                $(this).remove(); 
+                            });
+                        }, 5000);
+                         
+                        });
+
+                        </script>
+				<!-- end row -->
+				
+						<div class="row">
+							
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">						
+										<div class="card mb-3">
+											<div class="card-header">
+												<h3><i class="fa fa-user"></i> <%=@user.name%> | <%=@user.role.name%></h3>								
+											</div>
+												
+											<div class="card-body">
+												
+												
+												
+								
+												<div class="row">	
+												
+												<div class="col-lg-9 col-xl-9">
+													
+													
+													
+													<%= @user.name%> <br>
+													<%= @user.email%> <br>
+													Usuario desde: <%= I18n.l(@user.created_at, format: '%d de %B de %Y')%>
+													
+
+											
+												</div>
+												
+												
+												
+												<div class="col-lg-3 col-xl-3 border-left">
+													<%= link_to '<i class="fas fa-edit"></i> Editar datos'.html_safe,  '#', 'data-target' => "#myModal3_#{@user.id}", 'data-toggle' => 'modal', class: "btn btn-success pull-right", style: "margin-bottom: 5px; margin-top: 5x; width: 100%;" %> <br>
+													<%= link_to '<i class="fas fa-key"></i> Cambiar mi contraseña'.html_safe,  '#', 'data-target' => "#myModal_#{@user.id}", 'data-toggle' => 'modal', class: "btn btn-info pull-right", style: "margin-bottom: 5px; margin-top: 5px;width: 100%;" %>
+													
+													
+												</div>
+												</div>								
+												
+																					
+												
+								</div>	
+								<!-- end card-body -->								
+									
+							</div>
+							<!-- end card -->					
+
+						</div>
+						<!-- end col -->	
+															
+					</div>
+					<!-- end row -->	
+
+
+            </div>
+			<!-- END container-fluid -->
+
+		</div>
+		<!-- END content -->
+
+    </div>
+
+<div class="modal fade" id='<%= "myModal3_#{@user.id}" %>' tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			                              <div class="modal-dialog" role="document">
+			                              <div class="modal-content">
+			                                <div class="modal-header">
+			                                  <h5 class="modal-title" id="exampleModalLabel">Editar datos</h5>
+			                                </div>
+			                                  <div class="modal-body">
+			                                    <%= bootstrap_form_for(@user) do |f| %>
+
+			                                      
+                 <div class="form-row">
+              	  <div class="col-md-12">
+	                <%= f.email_field :email,:label=>"Email",:required => true %>
+	              
+	              </div>
+
+                       
+                   <div class="col-md-6">
+                      <%= f.text_field :firstname,:label=>"Nombres",:required => true,:onkeypress=>"return isWord(event)" %>
+                    </div>
+                    <div class="col-md-6">
+                        <%= f.text_field :lastname,:label=>"Apellido paterno",:required => true,:onkeypress=>"return isWord(event)" %>
+                    </div>
+					
+				  
+                
+
+              
+                 </div>
+			                                  
+			                                  </div>
+			                                   
+			                                  <div class="modal-footer">
+			                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+			                                   <!--  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button> -->
+			                                   <input class="btn btn-default" name="commit" type="submit" value="Guardar">
+			                                  </div>
+			                                    <% end %>
+			                                </div><!-- /.modal-content -->
+			                              </div><!-- /.modal-dialog -->
+			                            </div><!-- /.modal -->
+
+
+
+
+
+<div class="modal fade" id='<%= "myModal_#{@user.id}" %>' tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Cambiar contraseña</h5>
+        </div>
+          <div class="modal-body">
+            <%= bootstrap_form_for(@user) do |f| %>
+
+              <%= f.hidden_field :reset_password_token %>
+
+              <div class="field">
+               
+                <% if @minimum_password_length %>
+                  <em>(<%= @minimum_password_length %> caracteres mínimo)</em><br />
+                <% end %>
+                <%= f.password_field :password, autocomplete:"off",:label=> "Nueva contraseña",
+                :minlength=>"6", :required => true %>
+              </div>
+
+              <div class="field">
+               
+                <%= f.password_field :password_confirmation, autocomplete: "off", :label=> "Confirmar contraseña",:minlength=>"6", :required => true %>
+              </div>
+              <div class="field text-center">
+              	<p>Al guardar, se cerrará la sesión y deberá ingresar con su nueva contraseña</p>
+              </div>
+
+              
+            </div>
+			                                       
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+           <!--  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button> -->
+           <input class="btn btn-default" name="commit" type="submit" value="Guardar">
+          </div>
+            <% end %>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->            
+
+
+  <script>
+    function isNumberKey(evt){
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}
+    function check(e) {
+        tecla = (document.all) ? e.keyCode : e.which;
+
+        //Tecla de retroceso para borrar, siempre la permite
+        if (tecla == 8) {
+            return true;
+        }
+
+        // Patron de entrada, en este caso solo acepta numeros y letras
+        patron = /[A-Za-z0-9]/;
+        tecla_final = String.fromCharCode(tecla);
+        return patron.test(tecla_final);
+    }
+    function isWord(e) {
+        tecla = (document.all) ? e.keyCode : e.which;
+
+        //Tecla de retroceso para borrar, siempre la permite
+        if (tecla == 8) {
+            return true;
+        }
+
+        // Patron de entrada, en este caso solo acepta numeros y letras
+        patron = /[A-Za-z_ .-]/;
+        tecla_final = String.fromCharCode(tecla);
+        return patron.test(tecla_final);
+    }
+
+    $("#datepicker").datepicker({
+    format: "yyyy",
+    viewMode: "years", 
+    minViewMode: "years"
+});
+
+  </script>
+<style>
+	  .btn-warning,.btn-danger:visited {
+   color:white !important;
+}
+.popover {
+  max-width: 100% !important;
+}
+.card {
+        margin: 0 auto; /* Added */
+        float: none; /* Added */
+        margin-bottom: 10px; /* Added */
+}
+
+.bg-danger:hover{
+	background-color: #78168c !important;
+}
+.bg-success{
+	background-color: #28a020 !important;
+
+}
+.bg-info{
+	background-color: #4b51d1 !important;
+}
+.bg-info:hover{
+	background-color: #34398e !important;
+}
+.bg-act{
+	background-color: #fc6225 !important;
+}
+.bg-act:hover{
+	background-color: #cc4f22 !important;
+}
+.bg-success:hover{
+	background-color: #1d7a17 !important;
+
+}
+#popover:hover{
+  background-color: none !important;
+  color: #af5d00 !important;
+
+}
+a#popover:hover{
+  background-color: white !important;
+
+}
+
+#popover{
+  color: #DD7900 !important;
+}
+
+
+</style>
+<script>
+	
+</script>
+<script>
+	$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+
+$(document).ready(function() {
+	$('#popoveruserData').popover();
+	$('#popoversubjectData').popover();
+	$('#popovercareerData').popover();
+	$('#popoversubirData').popover();
+	$('#popoverperiodData').popover();
+	$('#popoveractualizarData').popover();
+
+  var image = '<center><img src="../assets/images/ejemploarchivo.png"></center>';
+
+  $('#popover').popover({
+    placement: 'bottom',
+    content: '<ul> <li type="disc">Los archivos deben tener extensión .csv </li> <li type="disc">La probabilidad de deserción, debe estar expresada con un punto como delimitador de decimales (ej: 0.73)</li><li type="disc">Deben estar presentes los encabezados "id";"rut_cifrado";"pred_des"</li> <li type="disc">Un ejemplo de como se debe ver el archivo a subir es el siguiente: </li> </ul>'+image,
+    html: true
+  });
+});
+</script>

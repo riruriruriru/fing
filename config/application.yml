@@ -1,0 +1,11 @@
+
+
+#URL_API: http://158.170.35.170:8080
+URL_API: http://127.0.0.1:3002
+GMAIL_USERNAME: c404sistemamonitoreo@gmail.com
+GMAIL_PASSWORD: C404smfing
+
+#ENV["URL_API"]
+# production:
+#   stripe_api_key: sk_live_EeHnL644i6zo4Iyq4v1KdV9H
+#   stripe_publishable_key: pk_live_9lcthxpSIHbGwmdO941O1XVU

@@ -1,0 +1,26 @@
+
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">	
+    <div class="card mb-3">
+      <div class="card-body">
+        <%= bootstrap_form_for(:department, url: departments_path, local: true) do |form| %>
+                <div class="form-group col-md-3">
+                  <%= form.text_field :name,:label=>"Nombre",:required => true,:onkeypress=>"return isWord(event)"%>
+                </div>
+                    
+                    <div class="form-group col-md-3">
+                      <%= form.select(:academic_unit_id, options_from_collection_for_select(AcademicUnit.all, :id, :name ),:label=>"Unidad académica",:required => true) %>
+                    </div>
+
+                    <input class="btn btn-primary" name="commit" type="submit" value="Guardar">
+
+                  </div>  
+            </div>
+            <% end %>            
+  </div>
+</div>  
+      
+
+
+
+

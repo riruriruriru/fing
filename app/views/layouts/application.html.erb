@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+        <%= csrf_meta_tags %>
+        <%= javascript_include_tag "application"%>
+        
+    
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="../assets/images/favicon.ico">
+
+        <!-- Bootstrap CSS -->
+        <link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        
+        <!-- Font Awesome CSS -->
+        <link href="../assets/font-awesome/css/all.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        
+        <!-- Custom CSS -->
+        <link href="../assets/css/style.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/css/animate.css" rel="stylesheet" type="text/css" />
+        
+        <!-- BEGIN CSS for this page -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"/>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat|Open+Sans&display=swap" rel="stylesheet">
+        <!-- END CSS for this page -->
+        
+</head>
+
+<body class="adminbody">
+
+<div id="main">
+
+    <!-- top bar navigation -->
+    <div class="headerbar">
+
+        <!-- LOGO -->
+        <div class="headerbar-left">
+           <!--  <a href="/" class="logo"><img alt="Logo" src="../assets/images/logofing.png"></a> -->
+        </div>
+
+        <nav class="navbar-custom">
+
+                    <ul class="list-inline float-right mb-0">
+                        
+                      
+                         <% if current_user.coordinador? %>
+                        <li class="list-inline-item dropdown notif">
+                            <%if @notify!=0 and @notify.present?%>
+                               
+                                    <%= link_to "/studentannotations", class: "nav-link dropdown-toggle arrow-none"  do %>
+                                     
+                                <i class="fa fa-fw fa-bell-o"></i><span class="notification-counter"><%=@notify%></span><% end %>
+                                
+                                
+
+                            <%else%>
+                                 <%= link_to "/studentannotations", class: "nav-link dropdown-toggle arrow-none"  do %>
+                                     
+                                <i class="fa fa-fw fa-bell-o"></i><% end %>
+                            <% end%>
+                           
+                            
+                        </li>
+                        <% end %>
+
+                        <li class="list-inline-item dropdown notif">
+                            <a class="nav-link dropdown-toggle nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" style="width: auto !important; font-size: 14px;">
+                                <%=current_user.email%> (<b><%=current_user.role.name%></b>)
+                                <img src="../assets/images/avatars/admin.png" alt="Profile image" class="avatar-rounded">
+                               
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                              
+                               
+
+                              <!-- current_user.id
+                                <a href="pro-profile.html" class="dropdown-item notify-item">
+                                    <i class="fa fa-user"></i> <span>Perfil</span>
+                                </a> -->
+                                <% if current_user.admin? %>
+                                <%= link_to "/admin", class: "dropdown-item notify-item"  do %>
+                                     <i class="fas fa-users-cog"></i>Configuración
+                                  <% end %>
+                                  <% end %>
+
+                        
+                               <%= link_to  "/users/#{current_user.id}", class: "dropdown-item notify-item" do%>
+                                     <i class="fas fa-user"></i> Mi Perfil
+                                  <% end %>
+                               
+                                <%= link_to destroy_user_session_path, :method => 'delete', class: "dropdown-item notify-item"  do %>
+                                     <i class="fa fa-power-off"></i> Cerrar Sesión
+                                  <% end %>
+                                  
+                                                            
+                                
+                              
+                                
+                            </div>
+                        </li>
+
+                    </ul>
+
+                    <ul class="list-inline menu-left mb-0">
+                        <li class="float-left">
+                            <button class="button-menu-mobile open-left">
+                                <i class="fa fa-fw fa-bars"></i>
+                            </button>
+                        </li>                        
+                    </ul>
+
+        </nav>
+
+    </div>
+    <!-- End Navigation -->
+    
+ 
+    <!-- Left Sidebar -->
+    <div class="left main-sidebar">
+    
+        <div class="sidebar-inner leftscroll">
+
+            <div id="sidebar-menu">
+        
+            <ul>
+                    
+                    <% if !request.path.start_with?('/students') && !request.path.start_with?('/tutors') && !request.path.start_with?('/tutorials') && !request.path.start_with?('/activities') && !request.path.start_with?('/admin') && !request.path.start_with?('/student_tutorials')&& !request.path.start_with?('/tutor_tutorials')%>
+                        <li class="submenu">
+                            <a class="activeoption active" href="/"><i class="fa fa-fw fa-bars"></i><span> Inicio </span> </a>
+                        </li>
+                    <%else%>
+                        <li class="submenu">
+                            <a  href="/"><i class="fa fa-fw fa-bars"></i><span> Inicio </span> </a>
+                        </li>
+
+                     <%end%>
+
+                     <!-- Agregar facultad, departamento o carrera : Modificar -->
+                    <%if request.path.start_with?('/academic_units')%>
+                             <% if current_user.admin? %>
+                            <li class="submenu">
+                                <a href="#"><i class="fas fa-folder-plus"></i><span> Agregar </span> <span class="menu-arrow"></span></a>
+                                    <ul class="list-unstyled">
+                                        <% if current_user.admin?%>
+                                        <li><a class="activeoption active" href="/academic_units/new">Unidad Académica Mayor</a></li><%end%>
+                                        <% if current_user.admin?%>
+                                        <li><a class="activeoption active" href="/departments/new">Departamento Académico o Escuela</a></li><%end%>
+                                        <% if current_user.admin?%>
+                                        <li><a class="activeoption active" href="/careers/new">Carrera</a></li> <%end%>
+                                    </ul>
+                            </li>
+                             <% end %>
+                      <%else%>
+                            <% if current_user.admin? %>
+                            <li class="submenu">
+                                <a href="#"><i class="fas fa-folder-plus"></i><span> Agregar </span> <span class="menu-arrow"></span></a>
+                                    <ul class="list-unstyled">
+                                        <% if current_user.admin?%>
+                                        <li><a href="/academic_units/new">Unidad Académica Mayor</a></li><%end%>
+                                        <% if current_user.admin?%>
+                                        <li><a href="/departments/new">Departamento Académico o Escuela</a></li><%end%>
+                                        <% if current_user.admin?%>
+                                        <li><a href="/careers/new">Carrera</a></li><%end%>
+                                        
+                                    </ul>
+                            </li>
+                             <% end %>
+                    <%end%>
+
+                     <%if request.path.start_with?('/users/sign_up')%>
+                             <% if current_user.admin?%>
+                                <li class="submenu">
+                                    <a href="/admin"><i class="fas fa-users-cog"></i><span> Configuración </span></a>
+                                </li>
+                            <% end %>
+                     <%else%>
+                            <% if current_user.admin?%>
+                                <li class="submenu">
+                                    <a href="/admin"><i class="fas fa-users-cog"></i><span> Configuración </span></a>
+                                </li>
+                            <% end %>
+                     <%end%>
+
+
+                     <!-- Mostrar Facultades: Modificar -->
+                    <%if request.path.start_with?('/academic_units')%>
+                             <% if current_user.admin?%>
+                                <li class="submenu">
+                                    <a href="/academic_units"><i class="fas fa-landmark"></i><span> Unid. Académicas Mayores </span></a>
+                                </li>
+                            <% end %>
+                     <%else%>
+                            <% if current_user.admin?%>
+                                <li class="submenu">
+                                    <a href="/academic_units"><i class="fas fa-landmark"></i><span> Unid. Académicas Mayores</span></a>
+                                </li>
+                            <% end %>
+                     <%end%>
+
+
+                    <%if request.path.start_with?('/students')%>
+                             <% if current_user.admin? or current_user.coordinador? or current_user.tutor?%>
+                                <li class="submenu">
+                                    <a href="#"><i class="fas fa-users"></i><span> Estudiantes </span> <span class="menu-arrow"></span></a>
+                                        <ul class="">
+                                            <li><a class="activeoption active" href="/students"> Lista</a></li>
+                                            <!-- <li><a href="/student_tutorials"> Asistencia</a></li> -->
+                                        </ul>
+                                </li>
+                            <% end %>
+
+                     <%else%>
+
+                            <% if current_user.admin? or current_user.coordinador? or current_user.tutor?%>
+                                <li class="submenu">
+                                    <a href="#"><i class="fas fa-users"></i><span> Estudiantes </span> <span class="menu-arrow"></span></a>
+                                        <ul class="list-unstyled">
+                                            <li><a href="/students"> Lista</a></li>
+                                            <!-- <li><a href="/student_tutorials"> Asistencia</a></li> -->
+                                        </ul>
+                                </li>
+                            <% end %>
+
+
+                     <%end%>
+
+
+
+                     <%if request.path.start_with?('/tutors')%>
+                             <% if current_user.admin? or current_user.coordinador? %>
+                            <li class="submenu">
+                                <a href="#"><i class="fas fa-chalkboard-teacher"></i><span> Tutores </span> <span class="menu-arrow"></span></a>
+                                    <ul class="list-unstyled">
+                                        <li><a class="activeoption active" href="/tutors">Lista</a></li>
+                                       
+                                       
+                                        
+                                    </ul>
+                            </li>
+                             <% end %>
+                      <%else%>
+                            <% if current_user.admin? or current_user.coordinador? %>
+                            <li class="submenu">
+                                <a href="#"><i class="fas fa-chalkboard-teacher"></i><span> Tutores </span> <span class="menu-arrow"></span></a>
+                                    <ul class="list-unstyled">
+                                        <li><a href="/tutors">Lista</a></li>
+                                       
+                                       
+                                        
+                                    </ul>
+                            </li>
+                             <% end %>
+                       <%end%>
+
+                    <%if request.path.start_with?('/tutorials') || request.path.start_with?('/student_tutorials') || request.path.start_with?('/tutor_tutorials')%>
+                     
+                                <li class="submenu">
+                                    <a href="#"><i class="far fa-calendar-alt"></i><span> Actividades </span> <span class="menu-arrow"></span></a>
+                                        <ul >
+                                            <% if current_user.admin? or current_user.coordinador? or current_user.tutor?%>
+                                            <li><a class="activeoption active" href="/tutorials"> Tutorías</a></li><%end%>
+                                            <% if current_user.admin? or current_user.coordinador? or current_user.supervisor?%>
+                                             <li><a  href="/activities"> Calendario</a></li> <%end%>
+                                           <!--  <li><a href="/tutors"> Otras</a></li> -->
+                                        </ul>
+                                </li>
+                    <%elsif request.path.start_with?('/activities')%>
+                            <li class="submenu">
+                                    <a href="#"><i class="far fa-calendar-alt"></i><span> Actividades </span> <span class="menu-arrow"></span></a>
+                                        <ul class="list-unstyled">
+                                            <% if current_user.admin? or current_user.coordinador? or current_user.tutor?%>
+                                            <li><a href="/tutorials"> Tutorías</a></li><%end%>
+                                             <% if current_user.admin? or current_user.coordinador?%>
+                                             <li><a  class="activeoption active" href="/activities"> Calendario</a></li> <%end%>
+                                           <!--  <li><a href="/tutors"> Otras</a></li> -->
+                                        </ul>
+                                </li>
+                    <%else%>
+                    
+                                <li class="submenu">
+                                    <a href="#"><i class="far fa-calendar-alt"></i><span> Actividades </span> <span class="menu-arrow"></span></a>
+                                        <ul class="list-unstyled">
+                                             <% if current_user.admin? or current_user.coordinador? or current_user.tutor?%>
+                                            <li><a href="/tutorials"> Tutorías</a></li><%end%>
+                                            <% if current_user.admin? or current_user.coordinador? %>
+                                             <li><a  href="/activities"> Calendario</a></li> <%end%>
+                                           <!--  <li><a href="/tutors"> Otras</a></li> -->
+                                        </ul>
+                                </li>
+                                
+                     <%end%>
+
+
+                    
+                             
+
+        <style>
+            a.activeoption{
+                background-color: #DD7900 !important;
+                color: white !important;
+            }
+        </style>           
+                    <!-- <li class="submenu">
+                        <a href="#"><i class="fa fa-fw fa-tv"></i> <span> User Interface </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="ui-alerts.html">Alerts</a></li>
+                                <li><a href="ui-buttons.html">Buttons</a></li>
+                                <li><a href="ui-cards.html">Cards</a></li>
+                                <li><a href="ui-carousel.html">Carousel</a></li>
+                                <li><a href="ui-collapse.html">Collapse</a></li>
+                                <li><a href="ui-icons.html">Icons</a></li>
+                                <li><a href="ui-modals.html">Modals</a></li>
+                                <li><a href="ui-tooltips.html">Tooltips and Popovers</a></li>
+                            </ul>
+                    </li>
+
+                    <li class="submenu">
+                        <a href="#"><i class="fa fa-fw fa-file-text-o"></i> <span> Forms </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="forms-general.html">General Elements</a></li>
+                                <li><a href="forms-select2.html">Select2</a></li>
+                                <li><a href="forms-validation.html">Form Validation</a></li>
+                                <li><a href="forms-text-editor.html">Text Editors</a></li>
+                                <li><a href="forms-upload.html">Multiple File Upload</a></li>
+                                <li><a href="forms-datetime-picker.html">Date and Time Picker</a></li>
+                                <li><a href="forms-color-picker.html">Color Picker</a></li>
+                            </ul>
+                    </li>
+                    
+                    <li class="submenu">
+                        <a href="#"><i class="fa fa-fw fa-th"></i> <span> Plugins </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="star-rating.html">Star Rating</a></li>
+                                <li><a href="range-sliders.html">Range Sliders</a></li>
+                                <li><a href="tree-view.html">Tree View</a></li>
+                                <li><a href="sweetalert.html">SweetAlert</a></li>
+                                <li><a href="calendar.html">Calendar</a></li>
+                                <li><a href="gmaps.html">GMaps</a></li>
+                                <li><a href="counter-up.html">Counter-Up</a></li>
+                            </ul>
+                    </li>
+
+                    <li class="submenu">
+                        <a href="#"><i class="fa fa-fw fa-image"></i> <span> Images and Galleries </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="media-fancybox.html"><span class="label radius-circle bg-danger float-right">cool</span> Fancybox </a></li>                                
+                                <li><a href="media-masonry.html">Masonry</a></li>
+                                <li><a href="media-lightbox.html">Lightbox</a></li>
+                                <li><a href="media-owl-carousel.html">Owl Carousel</a></li>
+                                <li><a href="media-image-magnifier.html">Image Magnifier</a></li>
+                                
+                            </ul>
+                    </li>
+                    
+                    <li class="submenu">
+                        <a href="#"><span class="label radius-circle bg-danger float-right">20</span><i class="fa fa-fw fa-copy"></i><span> Example Pages </span></a>
+                            <ul class="list-unstyled">                              
+                                <li><a href="page-pricing-tables.html">Pricing Tables</a></li>
+                                <li><a target="_blank" href="page-coming-soon.html">Countdown</a></li>                              
+                                <li><a href="page-invoice.html">Invoice</a></li>                        
+                                <li><a href="page-login.html">Login / Register</a></li>                             
+                                <li><a href="page-blank.html">Blank Page</a></li>
+                            </ul>
+                    </li>
+
+                    <li class="submenu">
+                        <a href="#"><span class="label radius-circle bg-primary float-right">9</span><i class="fa fa-fw fa-indent"></i><span> Menu Levels </span></a>
+                            <ul>
+                                <li>
+                                    <a href="#"><span>Second Level</span></a>
+                                </li>
+                                <li class="submenu">
+                                    <a href="#"><span>Third Level</span> <span class="menu-arrow"></span> </a>
+                                        <ul style="">
+                                            <li><a href="#"><span>Third Level Item</span></a></li>
+                                            <li><a href="#"><span>Third Level Item</span></a></li>
+                                        </ul>
+                                </li>                                
+                            </ul>
+                    </li>
+
+                    <li class="submenu">
+                        <a class="pro" href="#"><i class="fa fa-fw fa-star"></i><span> Pike Admin PRO </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">                              
+                                <li><a target="_blank" href="https://www.pikeadmin.com/pike-admin-pro">Admin PRO features</a></li>
+                                <li><a href="pro-settings.html">Settings</a></li>
+                                <li><a href="pro-profile.html">My Profile</a></li>
+                                <li><a href="pro-users.html">Users</a></li>
+                                <li><a href="pro-articles.html">Articles</a></li>
+                                <li><a href="pro-categories.html">Categories</a></li>
+                                <li><a href="pro-pages.html">Pages</a></li>                             
+                                <li><a href="pro-contact-messages.html">Contact Messages</a></li>
+                                <li><a href="pro-slider.html">Slider</a></li>
+                            </ul>
+                    </li> -->
+                    
+            </ul>
+
+            <div class="clearfix"></div>
+
+            </div>
+        
+            <div class="clearfix"></div>
+
+        </div>
+
+    </div>
+    <!-- End Sidebar 
+
+     <p class="notice"><%= notice %></p>
+     <p class="alert"><%= alert %></p>-->
+
+   
+     <%= yield %>
+                        
+        
+</div>
+<!-- END main -->
+
+
+<script src="../assets/js/modernizr.min.js"></script>
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/moment.min.js"></script>
+        
+<script src="../assets/js/popper.min.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+
+<script src="../assets/js/detect.js"></script>
+<script src="../assets/js/fastclick.js"></script>
+<script src="../assets/js/jquery.blockUI.js"></script>
+<script src="../assets/js/jquery.nicescroll.js"></script>
+<script src="../assets/js/canvas-to-blob.js"></script>
+ <script src="https://greasyfork.org/scripts/381230-filesaver-min-js/code/FileSaverminjs.js?version=685345"></script>
+
+<!-- App js -->
+<script src="../assets/js/pikeadmin.js"></script>
+
+<!-- BEGIN Java Script for this page -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Counter-Up-->
+    <script src="../assets/plugins/waypoints/lib/jquery.waypoints.min.js"></script>
+    <script src="../assets/plugins/counterup/jquery.counterup.min.js"></script>            
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
+
+    
+    <script>
+        $(document).ready(function() {
+
+            // data-tables
+            $('#example1').DataTable({
+              
+              "language": {
+                        "sProcessing":     "Procesando...",
+                        "sLengthMenu":     "Mostrar _MENU_ registros",
+                        "sZeroRecords":    "No se encontraron resultados",
+                        "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                        "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix":    "",
+                        "sSearch":         "Buscar:",
+                        "sUrl":            "",
+                        "sInfoThousands":  ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst":    "Primero",
+                            "sLast":     "Último",
+                            "sNext":     "Siguiente",
+                            "sPrevious": "Anterior"
+                        },
+                        "oAria": {
+                            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                                  }
+                       }
+            });
+
+                    
+            // counter-up
+            $('.counter').counterUp({
+                delay: 10,
+                time: 600
+            });
+        } );        
+    </script>
+    
+    <script>
+    
+    </script>
+<!-- END Java Script for this page -->
+<style>
+    .notification-counter {   
+    position: absolute;
+    top: 8px;
+    right: 0px;
+    
+    background-color: rgba(212, 19, 13, 1);
+    color: #fff;
+
+    border-radius: 50%;
+    border: 2px solid #e2e2e2;
+    padding: 2px 4px;
+    font: 10px Verdana;
+
+
+}
+
+a.nav-link.dropdown-toggle.nav-user{
+    width: auto !important;
+    font-size: 14px;
+}
+</style>
+
+</body>
+</html>

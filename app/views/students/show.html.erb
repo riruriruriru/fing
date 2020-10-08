@@ -1,0 +1,352 @@
+<div class="content-page">
+	
+		<!-- Start content -->
+        <div class="content">
+            
+			<div class="container-fluid">
+
+					
+						<div class="row">
+								<div class="col-xl-12">
+              <div class="breadcrumb-holder">
+                
+                <%= link_to '<i class="fas fa-arrow-left"></i>'.html_safe, '/students' , class: "btn btn-secondary float-left" %>
+                      <h1 class="main-title float-left">Perfil Alumno</h1>
+                      <ol class="breadcrumb float-right">
+                        
+                      </ol>
+                      <div class="clearfix"></div>
+              </div>
+              </div>
+						</div>
+						
+                <% if !!flash[:notice]%>
+                        <div class="row animated fadeInRight" id="notification">
+                            <div class="alert alert-danger pull-right " role="alert" >
+                         
+                         <%= flash[:notice]%>
+                          
+                         
+                        </div>
+                        </div>
+                <% end %>
+                <% if !!flash[:noticep]%>
+                        <div class="row animated fadeInRight" id="notification">
+                            <div class="alert alert-success pull-right " role="alert" >
+                         
+                         <%= flash[:noticep]%>
+                          
+                         
+                        </div>
+                        </div>
+                         <% end %>
+                         <script type="text/javascript">
+
+                        $(document).ready(function () {
+                         
+                        window.setTimeout(function() {
+                            $("#notification").fadeTo(200, 0).slideUp(500, function(){
+                                $(this).remove(); 
+                            });
+                        }, 5000);
+                         
+                        });
+
+                        </script>
+
+
+
+							
+							
+						<div class="row">
+
+							
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">	
+
+										<div class="card mb-3">
+											
+												
+											<div class="card-body">
+												
+												
+												
+												<div class="row">
+												
+												<div class="col-lg-7 col-xl-7">
+													
+													<h2> <%= @student.firstname%> <%= @student.lastname%> <%= @student.lastnamema%></h2>
+													<h3><%= @career%></h3>
+													<h3><%= @student.rut%>-<%= @student.dv%></h3>
+													<h3><%= @student.email%></h3>
+													<h3>Nivel <%= @student.level%></h3>
+
+												</div>
+												<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 text-center pull-right" style="margin-bottom: 20px;">
+													<div class="col-lg-12" style="margin-bottom: 20px;">
+														<%= link_to '<i class="fas fa-pen-square"></i> Añadir Historia '.html_safe,  '#', 'data-target' => "#myModalhistoria", 'data-toggle' => 'modal', class: "btn btn-warning" %>
+														
+													</div>
+													<div class="col-lg-12">
+														<%if !@coordinadores.blank?%>
+														<%= link_to '<i class="fas fa-exclamation-triangle"></i> Añadir Alerta'.html_safe,  '#', 'data-target' => "#myModalalerta", 'data-toggle' => 'modal', class: "btn btn-danger" %>
+														<%else%>
+														<span class="d-inline-block" data-toggle="popover" data-trigger="hover" title="No disponible" data-content="No hay coordinadores registrados" data-placement="bottom">
+														  
+														  <button class="btn btn-danger" style="pointer-events: none;" 
+														 disabled><i class="fas fa-exclamation-triangle"></i> Añadir Alerta</button>
+														</span>
+
+														
+														<%end%>
+
+														
+												</div>
+
+											</div>
+												
+												<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
+		                                            <div class="card-box noradius noborder bg-success row">
+
+		                                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
+		                                                 	<h6 class="text-white text-uppercase m-b-20 text-center">Asistencia a tutorías</h6>
+
+		                                                    <h1 class="m-b-20 text-white text-center "><%= @presente%>/<%= @presente+@ausente%></h1>
+		                                                 </div>
+		                                                    
+		                                            </div>
+		                                    	</div>
+		                                    	
+												
+												
+												
+												</div>		
+
+												 <table id="example1" class="table table-bordered table-hover display">
+												  <thead>
+												    <tr class="text-center">
+												      <th scope="col" style="width: 10%;">Fecha</th>
+												      <th scope="col">Tipo</th>
+												      <th scope="col" class="text-left">Comentario</th>
+												     
+												      <th scope="col">Estado</th>
+												      <th scope="col">Autor</th>
+												    </tr>
+												  </thead>
+												  <tbody>
+												  <% if !@studentannotations.blank? %>
+												  <% @studentannotations.each do |ann| %>
+												    <tr>
+												      <th class="text-center"><%= ann.times.strftime("%d-%m-%Y")%></th>
+												      <% if ann.typeannotation_id==1 %>
+												      	<td class=" text-center"><p class="historia"><%= ann.typeannotation.name%></p> </td>
+												       <% else %>
+												       <td class=" text-center"><p class="alerta"><%= ann.typeannotation.name%></p> </td>
+
+												       <% end %>
+												      <td><%= ann.comment%></td>
+												      
+
+												      <td class="text-center" ><%= ann.statusannotation.name%></td>
+												      <td class="text-center"><b><%= ann.user.name%></b><br>
+												      	<span style="font-size: 12px;"><%= ann.user.role.name%></span></td>
+												    </tr>
+												    <tr>
+												   <% end %>
+												   <% end %>
+												     
+												   
+												  </tbody>
+												</table>						
+												
+																				
+												
+								</div>	
+								<!-- end card-body -->								
+									
+							</div>
+							<!-- end card -->					
+
+						</div>
+						<!-- end col -->	
+															
+					</div>
+					<!-- end row -->	
+
+
+            </div>
+			<!-- END container-fluid -->
+
+		</div>
+		<!-- END content -->
+
+    </div>
+
+
+
+<div class="modal fade" id='<%= "myModalalerta"%>' tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Añadir Alerta</h5>
+      </div>
+        <div class="modal-body">
+          <%= bootstrap_form_for(@student) do |f| %>
+												
+		<div class="row ">
+			
+			<div class="col-md-12">
+				 
+			
+				 <%= f.fields_for :studentannotations, @student.studentannotations.build do |ann| %>
+				 <%= ann.text_area :comment,label: 'Alerta',  placeholder: " ",:cols => 30, :rows => 10 %>
+				 <%= ann.hidden_field :times, :value => Time.now.strftime('%d-%m-%Y')%>
+				 <%= ann.hidden_field :user_id, :value => current_user.id %>
+				 <%= ann.hidden_field :statusannotation_id, :value => 1 %>
+				 <%= ann.hidden_field :typeannotation_id, :value => 2 %>
+				<%= ann.select(:derivation, options_from_collection_for_select(User.where(rolesdevise: 3), :id, :nameandrole ),:label=>"Al guardar se enviará una alerta a:",:required => true) %>
+
+
+
+				 
+					<% end %>
+
+
+
+
+
+			</div>
+
+		</div>
+
+		</div>
+
+										           
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+         <!--  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button> -->
+         <input class="btn btn-default" name="commit" type="submit" value="Guardar">
+        </div>
+          <% end %>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <div class="modal fade" id='<%= "myModalhistoria"%>' tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Añadir Historia</h5>
+      </div>
+        <div class="modal-body">
+          <%= bootstrap_form_for(@student) do |f| %>
+												
+		<div class="row ">
+			
+			
+			<div class="col-md-12">
+
+				<%= f.fields_for :studentannotations, @student.studentannotations.build do |ann| %>
+				  <%= ann.text_area :comment,label: 'Historia',  placeholder: " ",:cols => 30, :rows => 10 %>
+				 <%= ann.hidden_field :times, :value => Time.now.strftime('%d-%m-%Y')%>
+				 <%= ann.hidden_field :user_id, :value => current_user.id %>
+				 <%= ann.hidden_field :statusannotation_id, :value => 1 %>
+				 <%= ann.hidden_field :typeannotation_id, :value => 1 %>
+				 <%= ann.hidden_field :derivation, :value => 2 %>
+				 
+					<% end %>
+
+			</div>
+			
+
+
+
+			
+
+		</div>
+
+		</div>
+
+										           
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+         <!--  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button> -->
+         <input class="btn btn-default" name="commit" type="submit" value="Guardar" >
+        </div>
+          <% end %>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+<style>
+	.tooltip-wrapper {
+  display: inline-block; /* display: block works as well */
+  margin: 50px; /* make some space so the tooltip is visible */
+}
+
+.tooltip-wrapper .btn[disabled] {
+  /* don't let button block mouse events from reaching wrapper */
+  pointer-events: none;
+}
+
+.tooltip-wrapper.disabled {
+  /* OPTIONAL pointer-events setting above blocks cursor setting, so set it here */
+  cursor: not-allowed;
+}
+  .btn-secondary{
+
+  color: white !important;
+  background-color: #a3a3a3 !important;
+  border-color: #a3a3a3 !important;
+}
+.btn-secondary:hover{
+  background-color: #7f7e7e !important;
+  border-color: #7f7e7e !important;
+ 
+}
+  .btn-warning,.btn-danger:visited, .btn-success {
+   color:white !important;}
+
+.imgRedonda {
+    width:300px;
+    height:300px;
+    border-radius:150px;
+}
+a.btn.btn-secondary.float-left{
+
+    margin-top: 8px !important;
+  }
+h3{
+	font-size: 16px;
+}
+.historia { 
+font-family: sans-serif; 
+color: #ffffff; 
+padding-left: 7px;
+padding-right: 7px;
+text-align: center;
+background: #EEA616;
+border-radius: 6px;
+text-shadow: 1px 1px 2px #a87612;}
+
+.alerta { 
+font-family: sans-serif; 
+color: #ffffff; 
+padding-left: 7px;
+padding-right: 7px;
+text-align: center;
+background:#F53821;
+border-radius: 6px;
+text-shadow: 1px 1px 2px #c93c2c;}
+
+</style>
+<script>
+
+
+	$(document).ready(function() {
+	$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+});
+</script>
+

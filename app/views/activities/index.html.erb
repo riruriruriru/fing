@@ -1,0 +1,540 @@
+
+    <script href='fullcalendar/fullcalendar/packages/interaction/main.js'></script>
+    
+    <div class="content-page">
+  
+    <!-- Start content -->
+        <div class="content">
+            
+      <div class="container-fluid">
+
+
+            <div class="row">
+              <div class="col-xl-12">
+              <div class="breadcrumb-holder">
+                
+                <%= link_to '<i class="fas fa-arrow-left"></i>'.html_safe, :back , class: "btn btn-secondary float-left",'data-target' =>"tooltip", 'data-placement'=>"bottom",'title'=>"Volver" %>
+                      <h1 class="main-title float-left">Calendario de actividades</h1>
+                      <ol class="breadcrumb float-right">
+                        
+                      </ol>
+                      <div class="clearfix"></div>
+                    
+                     
+              </div>
+              </div>
+            </div>
+            <div class="notices" id="notices"></div>
+            <% if !!flash[:noticen]%>
+                        <div class="row animated fadeInRight" id="notification">
+                            <div class="alert alert-danger pull-right " role="alert" >
+                         
+                         <%= flash[:noticen]%>
+                          
+                         
+                        </div>
+                        </div>
+                <% end %>
+                <% if !!flash[:noticep]%>
+                        <div class="row animated fadeInRight" id="notification">
+                            <div class="alert alert-success pull-right " role="alert" >
+                         
+                         <%= flash[:noticep]%>
+                          
+                         
+                        </div>
+                        </div>
+                        
+                         <% end %>
+                       
+                         <script type="text/javascript">
+
+                        $(document).ready(function () {
+                         
+                        window.setTimeout(function() {
+                            $("#notification").fadeTo(200, 0).slideUp(500, function(){
+                                $(this).remove(); 
+                            });
+                        }, 5000);
+                         
+                        });
+
+                        </script>
+                      
+      <div class="row">
+
+    
+        <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12">
+            <div class="card-box tilebox-one noradius">
+               
+              <div id='calendar-container'>
+              <div id='calendar'></div>
+              </div>
+
+              <div class="clearfix">
+
+              </div>
+
+            </div>
+        </div>
+      </div>
+                       
+    </div>
+
+    </div>
+
+    </div>
+
+
+
+
+<div id="createEventModal" class="modal fade" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                
+                <h4 class="pull-left">Nueva actividad</h4>
+                <button type="button" class="close pull-right" data-dismiss="modal"><span aria-hidden="true">&times;</span> <span class="sr-only">close</span></button>
+            </div>
+            <div id="modalBody" class="modal-body">
+              <form id="myForm" >
+                 <div class="form-group">
+                    <label for="eventName"> Nombre de la actividad (Requerido) </label>
+                    <input class="form-control" type="text" placeholder=" " id="eventName" required />
+                    <div class="errorc"></div>
+                </div>
+
+                  <div class="form-group ">
+                     <label for="eventColor"> Tipo de actividad </label>
+                    <div class="input-group">
+                     
+                       <select  class="form-control" id="eventColor">
+                        <option value="#0099ff">Reunión</option>
+                        <option value="#bb45c1">Actividad recreativa</option>
+                        <option value="#f78820">Otro</option>
+                      </select>
+                    </div>
+                </div>
+                
+
+                <div class="form-group">
+                   <label for="eventDescription"> Descripción de la actividad (Opcional)</label>
+                    <textarea class="form-control" type="text" rows="4" placeholder="" id= "eventDescription"></textarea>
+                </div>
+            </div>
+             
+            <div class="modal-footer">
+                
+                <button type="submit" class="btn btn-primary" id="submitButton" >Guardar</button>
+            </div>
+             </form>
+        </div>
+    </div>
+</div>
+
+<div id="editEventModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="pull-left">Editar Actividad</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span> <span class="sr-only">close</span></button>
+                
+            </div>
+            <div id="editmodalBody" class="modal-body">
+
+               <div class="form-group">
+                    <label for="eventNameedit"> Nombre de la actividad </label>
+                    <input class="form-control" type="text" placeholder=" " id="eventNameedit" required>
+                     <div class="error"></div>
+               </div>
+
+                  <div class="form-group ">
+                     <label for="eventColoredit"> Tipo de actividad </label>
+                    <div class="input-group">
+                     
+                       <select  class="form-control" id="eventColoredit">
+                        <option value="#0099ff">Reunión</option>
+                        <option value="#bb45c1">Actividad recreativa</option>
+                        <option value="#f78820">Otro</option>
+                      </select>
+                    </div>
+                </div>
+                   <div class="form-group ">
+                     <label for="eventStartedit"> Comienzo </label>
+                    
+                      <input class="form-control" type="date" id="eventStartedit">
+                      <div class="errorstart"></div>
+                       
+                    </div>
+                    <div class="form-group ">
+                     <label for="eventEndedit"> Término </label>
+                    
+                      <input class="form-control" type="date" id="eventEndedit">
+                        <div class="errorend"></div>
+                    </div>
+                
+                
+
+                <div class="form-group">
+                   <label for="eventDescriptionedit"> Descripción de la actividad </label>
+                    <textarea class="form-control" type="text" rows="4" placeholder="Event Description" id="eventDescriptionedit" required></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                 <button class="btn btn-danger" id="deleteEvent"><i class="fas fa-trash-alt"></i> Borrar</button>
+                
+                <button type="submit" class="btn btn-primary pull-right" id="submitButtonEdit">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src='../fullcalendar/packages/core/locales/es.js'></script>
+<script src='../fullcalendar/packages/core/locales-all.js'></script>
+<link href='../fullcalendar/packages/core/main.css' rel='stylesheet' />
+<link href='../fullcalendar/packages/daygrid/main.css' rel='stylesheet' />
+<link href='../fullcalendar/packages/list/main.css' rel='stylesheet' />
+<link href='../fullcalendar/packages/timegrid/main.css' rel='stylesheet' />
+<script src='../fullcalendar/packages/core/main.js'></script>
+
+<script src='../fullcalendar/packages/interaction/main.js'></script>
+<script src='../fullcalendar/packages/daygrid/main.js'></script>
+<script src='../fullcalendar/packages/timegrid/main.js'></script>
+<script src='../fullcalendar/packages/list/main.js'></script>
+<script src='../fullcalendar/packages/google-calendar/main.js'></script>
+<script src='http://fullcalendar.io/js/fullcalendar-2.1.1/lib/moment.min.js'></script>
+<script src='http://fullcalendar.io/js/fullcalendar-2.1.1/lib/jquery.min.js'></script>
+<script src="http://fullcalendar.io/js/fullcalendar-2.1.1/lib/jquery-ui.custom.min.js"></script>
+<script src='http://fullcalendar.io/js/fullcalendar-2.1.1/fullcalendar.min.js'></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script>
+
+
+ document.addEventListener('DOMContentLoaded', function() {
+    
+   
+
+    var data = $('<div>').html('<%=@eventos%>')[0].textContent;
+    var datas= JSON.parse(data);
+
+    var tutorial= $('<div>').html('<%=@eventos2%>')[0].textContent;
+    var tutorials=JSON.parse(tutorial);
+   
+    var calendarEl = document.getElementById('calendar');
+
+    
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
+      locale:'es',
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      },
+      
+      navLinks: true,
+      selectable: true,
+      selectHelper:true,
+      editable: true,
+      eventLimit: true, // allow "more" link when too many events
+      eventSources: [datas,tutorials],
+
+      
+      
+
+    
+
+   
+ 
+     
+      
+
+
+     // Seleccionar en el calendario
+      select: function(arg) {
+      
+        $('#createEventModal').modal('show');
+        args=arg;
+        
+        $('#submitButton').on('click', function(e){
+            e.preventDefault();
+            
+              if ($('#eventName').val().length == 0) {
+                var errorc= document.querySelector(".errorc");
+                errorc.innerHTML = '<label style="font-size: 14px; color: red;">Debe asignar un nombre para su actividad</label>';
+                return false;
+            }else{
+              var errorc= document.querySelector(".errorc");
+               errorc.innerHTML = '';
+               doSubmit(arg);
+               }
+           
+            
+          });
+       
+      },
+
+      // Click sobre un evento
+      eventClick: function(event){           
+        evento= event.event
+
+        
+     if(evento.extendedProps.groupid != "tutorial"){    
+       datas.forEach(function(eventos,indice,array){
+       
+            if (eventos.id== evento.id){
+             document.getElementById('eventColoredit').value= eventos.color;
+           
+             document.getElementById('eventStartedit').value= eventos.start;
+             document.getElementById('eventEndedit').value= eventos.end;
+             document.getElementById('eventDescriptionedit').value= eventos.description;
+          
+          
+           $("#eventNameedit").val(evento.title);
+          }
+        
+     } );
+
+           
+
+      
+
+         $('#editEventModal').modal('show');
+         $('#submitButtonEdit').on('click', function(e){
+            e.preventDefault();
+            if (($('#eventNameedit').val().length == 0)||($('#eventStartedit').val().length == 0)||($('#eventEndedit').val().length == 0)){
+              if ($('#eventNameedit').val().length == 0) {
+                var error= document.querySelector(".error");
+                error.innerHTML = '<label style="font-size: 14px; color: red;">Debe asignar un nombre para su actividad</label>';
+                return false;
+            }else{
+              var error= document.querySelector(".error");
+               error.innerHTML = '';
+
+               }
+                        
+            if ($('#eventStartedit').val().length == 0) {
+                var errors=document.querySelector(".errorstart");
+                errors.innerHTML = '<label style="font-size: 14px; color: red;">Debe asignar una fecha para el comienzo de la actividad</label>';
+                return false;
+            }else{
+               var errors= document.querySelector(".errorstart");
+                errors.innerHTML = '';
+
+             }
+              if ($('#eventEndedit').val().length == 0) {
+                var errore=document.querySelector(".errorend");
+                errore.innerHTML = '<label style="font-size: 14px; color: red;">Debe asignar una fecha para el término de la actividad</label>';
+                return false;
+              }else{
+                var errore=document.querySelector(".errorend");
+                errore.innerHTML = '';
+
+               }
+            }
+              else{
+
+                 doSubmitedit(evento);
+              }
+           
+          
+          });
+         
+         
+        
+         
+         if($('#deleteEvent').on('click', function() {
+         
+          if (confirm('¿Está seguro/a de eliminar esta actividad?')) {
+              
+             
+                    
+                    $.ajax({
+                         url: '/activities/'+ evento.id,
+                         beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+                         type: "POST",
+                         data: { _method:'DELETE' },
+                         success: function(data) {
+                             
+                              location.reload();
+                               
+                          },
+                          error: function(data) {
+                             
+                           location.reload();
+                          }
+                           
+                        });
+                     
+
+                    
+                    evento.remove();
+                  
+
+               $('#editEventModal').modal('hide');
+              } else {
+                  
+              }
+           
+           
+           
+
+            }));
+
+      }
+    },
+
+            // Arrastrar evento
+      eventDrop:function(evente){
+          evento=evente.event
+      
+          $.ajax({
+            url: '/activities/'+ evento.id,
+            type: 'put',
+            dataType: "json",
+                 headers: {
+                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), // Optional
+                      'Content-Type': 'application/json'
+                      },
+
+                 data: JSON.stringify({ 
+                          id: evento.id,
+                          start: evento.start,
+                          end: evento.end
+                          
+                           }),
+                 success: function(data) {
+                    
+
+                  },
+                  error: function(data) {
+                    location.reload();
+                  
+                  }
+          });
+          
+      }
+
+    });
+
+    calendar.render();
+
+
+  
+      function doSubmit(arg){
+    
+          
+  
+          if ($('#eventName').val()!== '') {
+            $("#createEventModal").modal('hide');
+            calendar.addEvent({
+            title: $('#eventName').val(),
+            start:arg.start,
+            end: arg.end,
+            color: $('#eventColor').val()
+           
+          });
+          
+          
+          $.ajax({
+                 url: "/activities",
+                 type: "POST",
+                 dataType: "json",
+                 headers: {
+                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), // Optional
+                      'Content-Type': 'application/json'
+                      },
+
+                 data: JSON.stringify({ 
+                          title: $('#eventName').val(),
+                          start: arg.start,
+                          end: arg.end,
+                          color: $('#eventColor').val(),
+                          description: $('#eventDescription').val()
+                           }),
+                 success: function(datar) {
+                    location.reload();
+                  
+                  },
+                  error: function(datar) {
+                    location.reload();
+                  
+                  }
+                   
+                });
+
+              
+      
+           }else{
+              alert('La actividad no se pudo crear.\nPor favor, complete todos los campos.');
+           }
+
+
+         
+     
+        }
+
+        function doSubmitedit(arg){
+       
+        $("#editEventModal").modal('hide');
+          $.ajax({
+            url: '/activities/'+ arg.id,
+            type: 'put',
+            dataType: "json",
+                 headers: {
+                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), // Optional
+                      'Content-Type': 'application/json'
+                      },
+
+                 data: JSON.stringify({ 
+                          id: arg.id,
+                          title: $('#eventNameedit').val(),
+                          color: $('#eventColoredit').val(),
+                          start: $('#eventStartedit').val(),
+                          end: $('#eventEndedit').val(),
+                          description: $('#eventDescriptionedit').val()
+                           }),
+                 success: function() {
+                     
+                       location.reload();
+                  },
+                  error: function() {
+                    
+                     location.reload();
+                  }
+          });
+        }
+
+        
+        
+  });
+
+</script>
+
+
+
+
+<style>
+
+
+  #calendar {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .fc-toolbar .fc-center { display: inline-block; text-transform: capitalize }
+
+</style>
+<style>
+  .btn-secondary{
+  margin-top: 8px;
+  color: white !important;
+  background-color: #a3a3a3 !important;
+  border-color: #a3a3a3 !important;
+}
+.btn-secondary:hover{
+  background-color: #7f7e7e !important;
+  border-color: #7f7e7e !important;
+ 
+}
+</style>

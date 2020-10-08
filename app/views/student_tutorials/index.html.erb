@@ -1,0 +1,114 @@
+
+<div class="content-page">
+  
+    <!-- Start content -->
+        <div class="content">
+            
+      
+       <div class="container-fluid">
+          
+            <div class="row">
+              <h1>Ayudantías</h1>
+
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">           
+              <div class="card mb-3">
+                <div class="card-header">
+                  <h3><i class="fa fa-table"></i> Ayudantías 1_2019</h3>
+                </div>
+                  
+                <div class="card-body">
+                  <div class="table-responsive">
+                  <table id="example1" class="table table-bordered table-hover display">
+                    <thead>
+                      <tr class="text-center">
+                    <th scope="col">R.U.N</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Asignatura</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Asistencia</th>
+                      </tr>
+                    </thead>                    
+                    <tbody>
+                     
+                      <% @studentstutorial.each do |studenttutorial| %>
+                  <tr class="text-center">
+                    <!-- <td>#</td> -->
+                    <td> <%=studenttutorial.student.rut%>-<%=studenttutorial.student.dv%> </td>
+                    <td> <%=studenttutorial.student.firstname%> <%=studenttutorial.student.lastname%> <%=studenttutorial.student.lastnamema%> </td>
+                    <td> <%=studenttutorial.tutorial.subject%> </td>
+                    <td> <%=studenttutorial.tutorial.dates%> </td>
+                    <td>
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" >
+                        <label class="onoffswitch-label" for="myonoffswitch">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                    </td>
+                    
+                    
+                    </tr>
+                  <%end%>
+                    </tbody>
+                  </table>
+                  </div>
+                  
+                </div>                            
+              </div><!-- end card-->          
+            </div>
+            
+           
+
+              
+            </div>
+      </div>
+    </div>
+</div>
+<style>
+  .onoffswitch {
+    position: relative; width: 108px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 20px;
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 30px; padding: 0; line-height: 30px;
+    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "Presente";
+    padding-left: 10px;
+    background-color: #51C234; color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+    content: "Ausente";
+    padding-right: 10px;
+    background-color: #EEEEEE; color: #999999;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block; width: 18px; margin: 6px;
+    background: #FFFFFF;
+    position: absolute; top: 0; bottom: 0;
+    right: 74px;
+    border: 2px solid #999999; border-radius: 20px;
+    transition: all 0.3s ease-in 0s; 
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px; 
+}
+</style>

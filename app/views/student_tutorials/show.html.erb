@@ -1,0 +1,258 @@
+
+<div class="content-page">
+  
+    <!-- Start content -->
+        <div class="content">
+            
+      
+       <div class="container-fluid">
+          
+            <div class="row">
+              <div class="col-xl-12">
+              <div class="breadcrumb-holder">
+                
+                <%= link_to '<i class="fas fa-arrow-left"></i> '.html_safe, '/tutorials' , class: 'btn btn-secondary float-left'%>
+                      <h1 class="main-title float-left">Asistencia estudiantes periodo <%= @period%></h1>
+                      <ol class="breadcrumb float-right">
+                        
+                      </ol>
+                      <div class="clearfix"></div>
+              </div>
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">           
+              <div class="card mb-3">
+                <div class="card-header row">
+
+                  <h3 class="col-md-6"><i class="fa fa-table"></i> Tutoría <%= @tutorialsubject.to_sentence %> / 
+                   <%= @tutorialinfo.dates.strftime("%d-%m-%Y") %>
+                 </h3>
+                 <h3 class="col-md-6 pull-right text-right" id="asistencia" data-record-id="<%= @studentstutorial.first.tutorial_id %>">Porcentaje de asistencia:  <%= @percent %> %</h3>
+                 
+
+<script>
+  $(document).ready(function() {
+  setInterval(function(){ setUpdatedAt(); }, 1000);
+});
+
+function setUpdatedAt(){
+  var $target = $('#asistencia');
+  var id = $target.attr('data-record-id');
+  $.ajax({
+    url : '/student_tutorials/'+ id +'/update',
+    dataType : 'json',
+    type : 'GET',
+    success: function(data){
+      $target.html(data['response']);
+    }
+
+  });
+
+}
+</script>
+
+                </div>
+                  
+               <div class="card-body">
+                  <div class="table-responsive">
+                  <table id="Asistencia" class="table table-bordered table-hover display">
+                    <thead>
+                      
+                      <tr >
+                  
+                    <th scope="col">R.U.N</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col"></th>
+                   
+                    <th scope="col">Asistencia</th>
+                      </tr>
+                    </thead>                    
+                    <tbody>
+                     
+                  <% @studentstutorial.each do |studenttutorial| %>
+                  <tr class="text-center">
+                   
+                    <td> <%=studenttutorial.student.rut%>-<%=studenttutorial.student.dv%> </td>
+                    <td> <%=studenttutorial.student.firstname%> <%=studenttutorial.student.lastname%> <%=studenttutorial.student.lastnamema%> </td>
+                    <td> <button  onclick="location.href='/students/'+<%=studenttutorial.student_id%>" type="button" class="btn btn-info" ><i class="fas fa-file-alt"></i> Ver Perfil </button></td>
+                  
+                     
+                   
+                    <td>
+                       <%= form_for @studentstutorial.find(studenttutorial.id),:method => :put , remote: true do |f|%>
+                       <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+                          <label class="switch">
+
+                          <%= f.check_box :present, {:class => 'check_lista', :onclick => 'this.form.submit()'}, 'true', 'false' %>
+                             <div class="slider round"></div>
+                         </label>
+                        <% end %>
+                        
+                      
+                   <!--  <div class="onoffswitch">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" >
+                        <label class="onoffswitch-label" for="myonoffswitch">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div> -->
+                    </td>
+                    
+                    
+                    </tr>
+
+                  <%end%>
+
+
+                    </tbody>
+                  </table>
+                  </div>
+                  
+                </div>                            
+              </div><!-- end card-->          
+            </div>
+            
+           
+
+              
+            </div>
+      </div>
+    </div>
+</div>
+
+
+<style>
+
+#asistencia{
+  color: green;
+  font-size: 22px;
+}
+.check_lista{
+  transform: scale(2);
+}
+td{
+  font-size: 14px !important;
+}
+
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+ 
+/* Ocultamos el checkbox html */
+.switch input {
+  display:none;
+}
+ 
+/* Formateamos la caja del interruptor sobre la cual se deslizará la perilla de control o slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+ 
+/* Pintamos la perilla de control o slider usando el selector before */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+ 
+/* Cambiamos el color de fondo cuando el checkbox esta activado */
+input:checked + .slider {
+  background-color: #3eb17c;
+}
+ 
+/* Deslizamos el slider a la derecha cuando el checkbox esta activado */ 
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+ 
+/* Aplicamos efecto de bordes redondeados en slider y en el fondo del slider */
+.slider.round {
+  border-radius: 34px;
+}
+ 
+.slider.round:before {
+  border-radius: 50%;
+}
+.btn-secondary{
+  margin-top: 8px;
+  color: white !important;
+  background-color: #a3a3a3 !important;
+  border-color: #a3a3a3 !important;
+  
+}
+.btn-secondary:hover{
+  background-color: #7f7e7e !important;
+  border-color: #7f7e7e !important;
+}
+
+a.btn.btn-secondary.float-left{
+
+    margin-top: 8px !important;
+  }
+
+
+
+
+</style>
+
+
+
+ <script>
+        $(document).ready(function() {
+
+            // data-tables
+            $('#Asistencia').DataTable({
+              "order": [2, 'asc' ],
+              "language": {
+                        "sProcessing":     "Procesando...",
+                        "sLengthMenu":     "Mostrar _MENU_ registros",
+                        "sZeroRecords":    "No se encontraron resultados",
+                        "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                        "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix":    "",
+                        "sSearch":         "Buscar:",
+                        "sUrl":            "",
+                        "sInfoThousands":  ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst":    "Primero",
+                            "sLast":     "Último",
+                            "sNext":     "Siguiente",
+                            "sPrevious": "Anterior"
+                        },
+                        "oAria": {
+                            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                                  }
+                       }
+            });
+
+                    
+            // counter-up
+            $('.counter').counterUp({
+                delay: 10,
+                time: 600
+            });
+        } );        
+    </script>

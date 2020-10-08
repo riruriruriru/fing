@@ -1,0 +1,67 @@
+<div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">	
+          <div class="card mb-3">
+            <div class="card-body">
+            <%= form_with scope: :student, url: students_path, local: true do |f| %>
+            <div class="form-group col-md-3">
+              <%= f.label :Nombre%><br>
+              <%= f.text_field :name, :required => true, class: "form-control", :style=>"text-transform:uppercase"%>
+            </div>
+
+            <div class="form-group col-md-3">
+              <%= f.label :Rut%><br>
+              <%= f.text_field :rut, :required => true, class: "form-control", :style=>"text-transform:uppercase"%>
+            </div>
+
+             <div class="form-group col-md-3">
+              <%= f.label :"Dígito verificador"%><br>
+              <%= f.text_field :dv, :required => true, class: "form-control", :style=>"text-transform:uppercase", :maxlength=>"1"%>
+            </div>
+
+            <div class="form-group col-md-3">
+                <%= f.label :"Año de ingreso"%><br>
+                <%= f.number_field :entry,:min=>2010,:max=>Time.zone.now.year,:value => @period,:required => true,:id => 'anioingreso' , class: "form-control"%>
+            </div>
+
+            <div class="form-group col-md-3">
+                <%= f.label :"Nombres"%><br>
+                <%= f.text_field :firstname,:required => true,:onkeypress=>"return isWord(event)", :style=>"text-transform:uppercase" , class: "form-control"%>
+            </div>
+            
+             <div class="form-group col-md-3">
+                <%= f.label :"Apellido Paterno"%><br>
+                  <%= f.text_field :lastname,:required => true,:onkeypress=>"return isWord(event)",:style=>"text-transform:uppercase" , class: "form-control"%>
+            </div>
+
+             <div class="form-group col-md-3">
+                <%= f.label :"Apellido Materno"%><br>
+                <%= f.text_field :lastnamema,:required => true,:onkeypress=>"return isWord(event)",:style=>"text-transform:uppercase" , class: "form-control"%>
+            </div>
+             
+            <div class="form-group col-md-3">
+                <%= f.label :"Email"%><br>
+                <%= f.email_field :email,:required => true , class: "form-control"%>
+            </div> 
+
+            <div class="form-group col-md-3">
+                <%= f.label :"Nivel"%><br>
+                <%= f.number_field :level,:label=>"Nivel",:min=>1,:max=>12,:required => true , class: "form-control"%>
+            </div> 
+
+           
+            <div class="form-group col-md-3">
+              <%= f.label :"Id departamento"%><br>
+              <%= f.text_field :department_id, :required => true, class: "form-control"%>
+            </div>
+              
+            
+            <%= f.submit "Guardar", class: "btn btn-primary" %>
+            <% end %>            
+            </div>
+          </div>  
+        </div>
+</div> 
+
+
+           
+                

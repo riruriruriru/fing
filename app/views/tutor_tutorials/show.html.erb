@@ -1,0 +1,184 @@
+
+<div class="content-page">
+  
+    <!-- Start content -->
+        <div class="content">
+            
+      
+       <div class="container-fluid">
+          
+            <div class="row">
+              <div class="col-xl-12">
+              <div class="breadcrumb-holder">
+                <%= link_to '<i class="fas fa-arrow-left"></i>'.html_safe,  '/tutorials', class: "btn btn-secondary float-left" %>
+                      <h1 class="main-title float-left">Asistencia tutores periodo <%= @period%></h1>
+                      <ol class="breadcrumb float-right">
+                        
+                      </ol>
+                      <div class="clearfix"></div>
+              </div>
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">           
+              <div class="card mb-3">
+                <div class="card-header row">
+
+                  <h3 class="col-md-6"><i class="fa fa-table"></i> Tutoría <%= @tutorialsubject.to_sentence %> / 
+                   <%= @tutorialinfo.dates.strftime("%d-%m-%Y") %>
+                 </h3>
+                 
+                </div>
+                  
+               <div class="card-body">
+                  <div class="table-responsive">
+                  <table id="example1" class="table table-bordered table-hover display">
+                    <thead>
+                      
+                      <tr >
+                    <th scope="col">N°</th>
+                    <th scope="col">R.U.N</th>
+                    <th scope="col">Nombre</th>
+                <!--     <th scope="col">Asignatura</th> -->
+                   
+                    <th scope="col">Asistencia</th>
+                      </tr>
+                    </thead>                    
+                    <tbody>
+                     
+                  <% @tutorstutorial.each do |studenttutorial| %>
+                  <tr class="text-center">
+                    <td><%= studenttutorial.tutor.id %></td>
+                    <td> <%=studenttutorial.tutor.rut%> </td>
+                    <td> <%=studenttutorial.tutor.firstname%> <%=studenttutorial.tutor.lastname%> </td>
+                  
+                     
+                   
+                    <td>
+                       <%= form_for @tutorstutorial.find(studenttutorial.id),:method => :put do |f|%>
+                          <label class="switch">
+                          <%= f.check_box :present, {:class => 'check_lista', :onclick => 'this.form.submit()'}, 'true', 'false' %>
+                             <div class="slider round"></div>
+                         </label>
+                        <% end %>
+                        
+                      
+                   <!--  <div class="onoffswitch">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" >
+                        <label class="onoffswitch-label" for="myonoffswitch">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div> -->
+                    </td>
+                    
+                    
+                    </tr>
+
+                  <%end%>
+
+
+                    </tbody>
+                  </table>
+                  </div>
+                  
+                </div>                            
+              </div><!-- end card-->          
+            </div>
+            
+           
+
+              
+            </div>
+      </div>
+    </div>
+</div>
+
+
+<style>
+
+#asistencia{
+  color: green;
+  font-size: 22px;
+}
+.check_lista{
+  transform: scale(2);
+}
+td{
+  font-size: 14px !important;
+}
+
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+ 
+/* Ocultamos el checkbox html */
+.switch input {
+  display:none;
+}
+ 
+/* Formateamos la caja del interruptor sobre la cual se deslizará la perilla de control o slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+ 
+/* Pintamos la perilla de control o slider usando el selector before */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+ 
+/* Cambiamos el color de fondo cuando el checkbox esta activado */
+input:checked + .slider {
+  background-color: #3eb17c;
+}
+ 
+/* Deslizamos el slider a la derecha cuando el checkbox esta activado */ 
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+ 
+/* Aplicamos efecto de bordes redondeados en slider y en el fondo del slider */
+.slider.round {
+  border-radius: 34px;
+}
+ 
+.slider.round:before {
+  border-radius: 50%;
+}
+.btn-secondary{
+  margin-top: 8px;
+  color: white !important;
+  background-color: #a3a3a3 !important;
+  border-color: #a3a3a3 !important;
+}
+.btn-secondary:hover{
+  background-color: #7f7e7e !important;
+  border-color: #7f7e7e !important;
+ 
+}
+
+
+
+</style>
+
+

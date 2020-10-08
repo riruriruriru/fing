@@ -1,0 +1,85 @@
+<% if current_user.admin? %>
+<div class="content-page">
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-xl-12">
+                  <div class="breadcrumb-holder">
+                    <%= link_to '<i class="fas fa-arrow-left"></i> '.html_safe, :back , class: "btn btn-secondary float-left" %>
+                      <h1 class="main-title float-left">Unidades Académicas Mayores</h1>
+                      <ol class="breadcrumb float-right"></ol>
+                      <div class="clearfix"></div>
+                  </div>
+                </div>
+              </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">	
+                    <div class="card mb-3">
+                      <div class="card-body">
+                        <ul class="list-group">
+                          <% @academic_units.each do |academic_unit| %>
+                          <li class="list-group-item">
+                            <div class="row">
+                            <div class="col-sm">
+                                <%= academic_unit.id %>
+                              </div>
+                              <div class="col-sm">
+                                <%= academic_unit.name %>
+                              </div>
+                              <div class="col-sm">
+                                <%= link_to 'Ver', academic_unit_path(academic_unit), class: "btn btn-primary" %>
+                              </div>
+                              <div class="col-sm">
+                                <%= link_to 'Editar', edit_academic_unit_path(academic_unit) , class: "btn btn-primary"%>
+                              </div>
+                              <div class="col-sm">
+                                <%= link_to 'Eliminar', academic_unit_path(academic_unit),
+                                    method: :delete,
+                                    data: { confirm: '¿Seguro que quieres eliminar esta unidad académica?' } , class: "btn btn-primary"%>
+                              </div>
+                            </div>
+                           
+                          </li>
+                          <% end %>
+                        </ul>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>            
+    </div>
+</div>    
+
+<%end%>
+
+
+<style>
+  .btn-primary{
+    margin-top: 8px;
+    color: white !important;
+    background-color: #002F6C !important;
+    border-color: #002F6C  !important;
+  }
+  .btn-secondary{
+
+    color: white !important;
+    background-color: #a3a3a3 !important;
+    border-color: #a3a3a3 !important;
+  }
+  .btn-secondary:hover{
+    background-color: #7f7e7e !important;
+    border-color: #7f7e7e !important;
+   
+  }
+  .imgRedonda {
+      width:300px;
+      height:300px;
+      border-radius:150px;
+  }
+  h3{
+      font-size: 16px;
+  }
+  </style>
